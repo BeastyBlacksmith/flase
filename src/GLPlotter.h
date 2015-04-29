@@ -15,6 +15,7 @@ class GLPlotter : public HarryPlotter
 public:
 
     GLPlotter();
+    ~GLPlotter();
 
     virtual void plot( World& world, real time );
 

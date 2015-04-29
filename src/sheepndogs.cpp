@@ -310,6 +310,12 @@ int main( int argc, char* argv[] )
     cout << "Time per run: " << clock.getFrameTime() << " s" << endl;
     // let's have some fun
 
+    // clean up!!!!!!!!
+    {
+        delete simulation;
+        delete plotter;
+        delete motion;
+    }
 
 	return 0;
 }

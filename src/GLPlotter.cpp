@@ -15,7 +15,8 @@ class MyWindow : public EgoWindow
 public:
 
     MyWindow() :
-        mutex( PTHREAD_MUTEX_INITIALIZER )
+        mutex( PTHREAD_MUTEX_INITIALIZER ),
+        quit( false )
     {
     }
 
@@ -38,6 +39,7 @@ public:
     real time;
 
     World* world;
+    bool quit;
 
 
 protected:
@@ -56,6 +58,10 @@ void MyWindow::init()
 void MyWindow::draw()
 {
     pthread_mutex_lock( &mutex );
+    if( quit ) {
+        close_window();
+        return;
+    }
 
     EgoWindow::draw();
 
@@ -121,6 +127,7 @@ void* glPlotterThread( void* data )
     w.create_window( 0, NULL, 640, 480 );
     w.run();
 
+    pthread_mutex_unlock( &w.mutex );
     return NULL;
 }
 
@@ -132,6 +139,20 @@ GLPlotter::GLPlotter()
     pthread_mutex_lock( &w.mutex );
 
     pthread_create( &thread, NULL, glPlotterThread, NULL );
+}
+
+GLPlotter::~GLPlotter()
+{
+    MyWindow& w = MyWindow::get_instance();    
+
+    w.quit = true;
+    pthread_mutex_unlock( &w.mutex );
+
+    // wait for window to finish closing process
+    {
+        pthread_mutex_lock( &w.mutex );
+        pthread_mutex_unlock( &w.mutex );
+    }
 }
 
 void GLPlotter::plot( World& world, real time )

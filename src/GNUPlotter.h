@@ -19,6 +19,7 @@ public:
             std::string sheepdat = "sheeppl.dat",
             std::string oscillator = "oscillator.dat",
             std::string gnuplotscript = "havefun.gp" );
+    ~GNUPlotter();
 
     virtual void plot( World& world, real time );
 

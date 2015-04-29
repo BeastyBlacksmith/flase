@@ -21,6 +21,13 @@ GNUPlotter::GNUPlotter(
 {
 }
 
+GNUPlotter::~GNUPlotter()
+{
+    outMaeh.flush();
+    outWuff.flush();
+    outGnuPlot.flush();
+}
+
 std::ostream& operator<<( std::ostream &out, const Sheep& sheep )
 {
     size_t i, j, n;
@@ -53,7 +60,6 @@ std::ostream& operator<<( std::ostream &out, const Dogs& dogs )
 
 void GNUPlotter::plot( World& world, real time )
 {
-    //TODO flush at end of simulation.
     if( counter % skip == 0 ) {
         outMaeh << world.sheep << "\n" << "\n";
         outWuff << world.dogs << "\n" << "\n";
