@@ -13,11 +13,13 @@ public:
     SheepField( const size_t gridsize, const size_t capacity, gsl_rng* const rng );
 
     size_t getNSheep( size_t i, size_t j ) const;
-    void setNSheep( size_t i, size_t j, size_t nSheep );
     void getRandomSheep( size_t& i, size_t& j ) const;
 
     bool first( size_t& i, size_t& j, size_t& n ) const;
     bool next( size_t& i, size_t& j, size_t& n ) const;
+
+protected:
+    size_t _setNSheep( size_t i, size_t j, size_t nSheep );
 
 private:
 

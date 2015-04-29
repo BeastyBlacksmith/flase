@@ -15,12 +15,16 @@ size_t SheepField::getNSheep( size_t i, size_t j ) const
     return field[ getIndex( i, j ) ];
 }
 
-void SheepField::setNSheep( size_t i, size_t j, size_t nSheep )
+size_t SheepField::_setNSheep( size_t i, size_t j, size_t nSheep )
 {
-    field[ getIndex( i, j ) ] = nSheep;
+    const size_t index = getIndex( i, j );
+    const size_t old = field[ index ];
+    field[ index ] = nSheep;
 
     if( nSheep > capacity )
         diffusionCandidates.emplace( i, j );
+
+    return old;
 }
 
 void SheepField::getRandomSheep( size_t& i, size_t& j ) const

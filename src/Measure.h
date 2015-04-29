@@ -2,27 +2,31 @@
 #ifndef _MEASURE_H
 #define _MEASURE_H
 
+#include <string>
+#include <iostream>
+#include <fstream>
+
 #include "common.h"
+#include "Sheep.h"
 
 class Measure {
 public:
     
-    //TODO: complete this and check!
-    Measure( ) :
-    {
-    }
+    //TODO: complete this and crack!
+    Measure( std::string filename );
+    ~Measure();
 
-    real distancePbc2D( real x1, real y1, real x2, real y2, real xboundary, real yboundary );
-    real centerOfMassPbc1D( Sheep sheep, real boundary );
+    void measure( const Sheep& sheep );
+    void operator()( const Sheep& sheep ) { return measure( sheep ); }
 
 protected:
-    
-    real meanSquareDisplacement;
-    real meanQuadraticDistance;
-    real centerOfMassX;
-    real centerOfMassY;
-    real clusterRadius;
 
+    static real meanQuadraticDistance( const Sheep& sheep );
+    static real meanSquareDisplacement( const Sheep& sheep );
+
+private:
+
+    std::ofstream out;
 };
 
 #endif // _MEASURE_H

@@ -7,6 +7,14 @@
 #include "common.h"
 #include "ConstVelocity.h"
 
+ConstVelocity::ConstVelocity( real noise, gsl_rng* const rng, real velocity ) :
+    Motion( noise, rng )
+{
+    persistenceTime = velocity*velocity/noise;
+    persistenceLength = persistenceTime*velocity;
+    effectiveDiffusion = persistenceLength*velocity/2.;
+}
+
 void ConstVelocity::step( real& x, real& y, real& vx, real& vy, real dt ) const
 {
 		//Heun

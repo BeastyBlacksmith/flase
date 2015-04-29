@@ -8,11 +8,7 @@ class BrownianMotion : public Motion
 {
 public:
 
-    BrownianMotion( real noise, gsl_rng* const rng, real friction ) :
-        Motion( noise, rng ),
-        friction( friction )
-    {
-    }
+    BrownianMotion( real noise, gsl_rng* const rng, real friction ) ;
 
     void step( real& x, real& y, real& vx, real& vy, real dt ) const;
 

@@ -4,11 +4,12 @@
 
 #include "Simulation.h"
 
-Simulation::Simulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng ) :
+Simulation::Simulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure ) :
     plotter( plotter ),
     rng( rng ),
     time( 0 ),
-    meanSheepDiffusionTime( meanSheepDiffusionTime )
+    meanSheepDiffusionTime( meanSheepDiffusionTime ),
+    measure( measure )
 {
     World& world = World::instance();
 
@@ -26,7 +27,7 @@ void Simulation::iterate( real dt )
 
     // move sheep
     {
-        // TODO: make this individual!
+        // TODO: make this individual?
         // move random sheep
         if( time >= tsheepboredom )
         {
@@ -48,9 +49,11 @@ void Simulation::iterate( real dt )
         world.dogs.work( dt );
     }
 
-    // TODO: do measurements
+    // do measurements
     {
-        
+        measure( world.sheep );
+        // measure.operator()( world.sheep );
+        // measure.measure( world.sheep );
     }
 }
 

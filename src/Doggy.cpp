@@ -31,9 +31,7 @@ void Doggy::work( real dt )
 
             if( gsl_rng_uniform( world.rng ) < nSheep * world.businessRate * dt ) {
                 // there is a sheep, maehh
-		const size_t cSheep = world.sheep.getCurrentSheep();
                 world.sheep.setNSheep( i, j, nSheep-1 );
-		world.sheep.setCurrentSheep( cSheep-1 );
 
                 state = OCCUPIED;
             }

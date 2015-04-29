@@ -3,8 +3,8 @@
 
 using namespace std;
 
-FiniteSimulation::FiniteSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, real dt, real judgementtime ) :
-    Simulation( plotter, meanSheepDiffusionTime, rng ),
+FiniteSimulation::FiniteSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure, real dt, real judgementtime ) :
+    Simulation( plotter, meanSheepDiffusionTime, rng, measure ),
     dt( dt ),
     judgementtime( judgementtime  )
 {

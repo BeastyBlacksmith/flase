@@ -18,26 +18,36 @@ size_t SheepTree::getNSheep( size_t i, size_t j ) const
         return 0;
 }
 
-void SheepTree::setNSheep( size_t i, size_t j, size_t nSheep )
+size_t SheepTree::_setNSheep( size_t i, size_t j, size_t nSheep )
 {
+    size_t old = 0;
+
     if( nSheep > 0 )
     {
         Tree::const_iterator it = tree.find_exact( Point( i, j ) );
 
         if( it != tree.end() ) {
+            old = *it->counter;
             *it->counter = nSheep;
         }
         else
             tree.insert( Point( i, j, nSheep ) );
     }
     else {
-        tree.erase_exact( Point( i, j ) );
+        Tree::const_iterator it = tree.find_exact( Point( i, j ) );
+
+        if( it != tree.end() ) {
+            old = *it->counter;
+            tree.erase( it );
+        }
     }
 
     if( nSheep > capacity )
         diffusionCandidates.emplace( i, j );
 
     //tree.optimise();
+
+    return old;
 }
 
 void SheepTree::getRandomSheep( size_t& i, size_t& j ) const

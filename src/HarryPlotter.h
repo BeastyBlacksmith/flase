@@ -9,6 +9,7 @@ class HarryPlotter
 {
 public:
 
+    virtual ~HarryPlotter() {}
     virtual void plot( World& world, real time ) = 0;
 
 };

@@ -152,7 +152,7 @@ void parse_params(int argc, char **argv)
 	}
 }
 
-void paste_params()
+void paste_params(Motion& motion)
 {
 	//TODO: check this
 	//int get= (int) t*delta_t/t_out;
@@ -176,9 +176,9 @@ void paste_params()
 	//printf("number of runs:\t\t%i\n",Nrun);
 	//printf("number of clustered:\t%i\n",Ncl);
 	printf("\n===============================\n");
-	//printf("eff. Diffusion:\t%f\n",Deff);
-	//printf("pers. Time:\t%f\n",tau_c);
-	//printf("pers. Length:\t%f\n",l_c);
+	printf("eff. Diffusion:\t%f\n", motion.getEffectiveDiffusion() );
+	printf("pers. Time:\t%f\n", motion.getPersistenceTime() );
+	printf("pers. Length:\t%f\n", motion.getPersistenceLength() );
 	//printf("MQD OP:\t%f\n",OP[get]/delta_l);
 	//printf("MSD OP:\t%f\n",MSD[get]);
 	//printf("Mean cl time:\t%g\n",aver5(1));
@@ -247,14 +247,13 @@ int main( int argc, char* argv[] )
     parse_params(argc, argv);
 	t3 /= delta_t;
 	tau_s /= delta_t;
-    paste_params();
 
     // setup simulation
     Motion* motion = NULL; 
     switch(mov)
     {
     case 0:
-        motion = new ConstVelocity ( Dphi, rng );
+        motion = new ConstVelocity ( Dphi, rng, v0 );
         break;
     case 1:
     	motion = new BrownianMotion ( Dphi, rng, mu );
@@ -285,19 +284,25 @@ int main( int argc, char* argv[] )
 	return -1;
     }
 
+    // TODO: filename from commandline?
+    Measure measure( "temp/measurements.txt" );
+
     sheep.init(Ns);
     
     Simulation* simulation = NULL;
     if( pr == 2 )
     {
-    	simulation = new InfiniteSimulation ( *plotter, tau_s, rng, delta_t );
+    	simulation = new InfiniteSimulation ( *plotter, tau_s, rng, measure, delta_t );
     }
     else
     {
-    	simulation = new FiniteSimulation ( *plotter, tau_s, rng, delta_t, t_end );
+    	simulation = new FiniteSimulation ( *plotter, tau_s, rng, measure, delta_t, t_end );
     }
     
     dogs.init(Nd, v0);
+
+    //Print parameters
+    paste_params( *motion );
 
     //measure time
     //simulate

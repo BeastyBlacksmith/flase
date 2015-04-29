@@ -10,7 +10,7 @@ class InfiniteSimulation : public Simulation
 {
 public:
 
-    InfiniteSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, real dt );
+    InfiniteSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure, real dt );
 
     void run( );
 

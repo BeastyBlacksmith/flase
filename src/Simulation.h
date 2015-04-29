@@ -6,12 +6,14 @@
 #include <gsl/gsl_randist.h>
 
 #include "HarryPlotter.h"
+#include "Measure.h"
 
 class Simulation
 {
 public:
 
-    Simulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng );
+    Simulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure );
+    virtual ~Simulation() {}
 
     virtual void run( ) = 0;
 
@@ -26,6 +28,8 @@ protected:
     real time;
     real tsheepboredom;
     real meanSheepDiffusionTime;
+
+    Measure& measure;
 };
 
 #endif // _SIMULATION_H
