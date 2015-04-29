@@ -13,8 +13,8 @@ GNUPlotter::GNUPlotter(
             string oscillator,
             string gnuplotscript ) :
     skip( skip ),
-    vecsize( vecsize ),
     counter( 0 ),
+    vecsize( vecsize ),
     outMaeh( sheepdat ),
     outWuff( oscillator ),
     outGnuPlot( gnuplotscript )

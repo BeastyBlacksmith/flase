@@ -10,13 +10,12 @@
 void ConstVelocity::step( real& x, real& y, real& vx, real& vy, real dt ) const
 {
 		//Heun
-                real vabs, phi, heun1, heun2;
+                real vabs, phi, heun1;
 		vabs = sqrt( vx*vx+vy*vy );
 		phi = atan2( vy, vx );
 		heun1 = phi;
 
 		phi += sqrt( 2.*noise*dt ) * gsl_ran_gaussian( rng, 1. )/vabs;
-		heun2 = phi;
 		vx = vabs * cos(phi);
 		vy = vabs * sin(phi);
 
