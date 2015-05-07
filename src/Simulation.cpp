@@ -51,7 +51,7 @@ void Simulation::iterate( real dt )
 
     // do measurements
     {
-        measure( world.sheep );
+        //measure( world.sheep );
         // measure.operator()( world.sheep );
         // measure.measure( world.sheep );
     }
