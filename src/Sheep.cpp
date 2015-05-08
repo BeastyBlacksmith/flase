@@ -1,6 +1,7 @@
 
 #include <math.h>
 
+#include "common.h"
 #include "Sheep.h"
 #include "World.h"
 
@@ -103,13 +104,12 @@ void Sheep::getCenterOfMass( real& x, real& y ) const
     size_t j;
     size_t n;
 
-    double xt1 = 0;
-    double yt1 = 0;
-    double xt2 = 0;
-    double yt2 = 0;
-    double pi = 4 * atan(1);
-    double r = size()/2./pi;
-    double phi1, phi2;
+    real xt1 = 0;
+    real yt1 = 0;
+    real xt2 = 0;
+    real yt2 = 0;
+    real r = size()/2./Constants::pi;
+    real phi1, phi2;
 
     World& world = World::instance();
 
@@ -126,14 +126,14 @@ void Sheep::getCenterOfMass( real& x, real& y ) const
             yt2 += n * sin( j/r ); 
         }
     }
-    if( xt1 == 0 && yt1 == 0 ) phi1 = 2*pi* (double) rand()/RAND_MAX;
+    if( xt1 == 0 && yt1 == 0 ) phi1 = 2*Constants::pi* (real) rand()/RAND_MAX;
     else phi1 = atan2( yt1,xt1 );
-    if( phi1 < 0. ) phi1 += 2*pi;
-    if( xt2 == 0 && yt2 == 0 ) phi2 = 2*pi* (double) rand()/RAND_MAX;
+    if( phi1 < 0. ) phi1 += 2*Constants::pi;
+    if( xt2 == 0 && yt2 == 0 ) phi2 = 2*Constants::pi* (real) rand()/RAND_MAX;
     else phi2 = atan2( yt2,xt2 );
-    if( phi2 < 0. ) phi2 += 2*pi;
+    if( phi2 < 0. ) phi2 += 2*Constants::pi;
 
-    x = phi1*world.boxsize/2./pi;
-    y = phi2*world.boxsize/2./pi;
+    x = phi1*world.boxsize/2./Constants::pi;
+    y = phi2*world.boxsize/2./Constants::pi;
 }
 

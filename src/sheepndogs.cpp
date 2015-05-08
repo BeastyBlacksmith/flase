@@ -285,7 +285,7 @@ int main( int argc, char* argv[] )
 	cerr << "Sheep == " << sc << "?! Bei dir hackt's wohl!!" << endl;
 	return -1;
     }
-    World::createInstance( L, rng, t3, r1, r2, sheep, dogs );
+    World::createInstance( L, rng, t3, r1, r2, *sheep, dogs );
     HarryPlotter* plotter = NULL;
     switch(pr)
     {
@@ -306,7 +306,7 @@ int main( int argc, char* argv[] )
     // TODO: filename from commandline?
     Measure measure( "temp/measurements.txt" );
 
-    sheep.init(Ns);
+    sheep->init(Ns);
     
     Simulation* simulation = NULL;
     if( pr == 2 )
