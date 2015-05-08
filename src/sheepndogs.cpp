@@ -30,7 +30,8 @@ double Dphi=4.,delta_t=0.01,v0=4.,r1=.5,r2=.5,t3=10.;	//noise int.,time step, ve
 double delta_l=1.,tau_s=10., mu=1.;	          	//interaction radius, cattle size, friction
 double vec=5., cl_trMSD=0.9, cl_trMQD=0.15;		//vec size, clustering threshold
 int Ns=100, Nd=50, L=200,Nsb=1;				//Number of sheep,dog, box size
-int t_end=1000,t_out=20,pr=0,mov=0,simtime=0,fbreak=2;
+int t_end=1000,t_out=20, simtime=0;
+int pr=0, mov=0, sc=0, fbreak=2;                        //class switches
 
 void parse_params(int argc, char **argv)
 {
@@ -39,21 +40,22 @@ void parse_params(int argc, char **argv)
 	Ns,Nd				//Particle Numbers
 	Nsb				//Number of sheep/cattle
 	pr:				//printing flag 
-		0: without measurements 1: with animation		
+		GNU: generate GNUplot script (default), GL: 3D GL plotter (infinite), void: no plot		
 	break:				//break flag
 		0: MQD 1: MQD+MSD 2: MSD (default)
+        sc:                             //sheep container
+            kdtree: use kdtree (default), mat: use matrix (faster for small grid)
 	L,vec				//box-, vec-length
-	D				//ang. diffusion const.
+	Dd				//ang. diffusion const.
 	ts				//mean diff. time sheep
 	dt,dl 				//time step, cattle size
 	v,mu				//velocity, friction
 	r1,r2				//change rates
-	t3				//waiting time state 2
+	t3				//waiting time in sleeping state
 	t,out				//end-, output-time
-	r				//interaction range (not yet implemented)
 	tr1,tr2	 1:MSD, 2:MQD		//threshold for clustering
 	m: bm: brownian motion		//change movment
-		default is const velocity
+	   cv: const velocity (default)
 */
 	int jpar;
 	if((argc % 2) == 0)
@@ -149,6 +151,11 @@ void parse_params(int argc, char **argv)
           		if(!strcmp(argv[jpar+1],"cv")) mov=0; 
           		if(!strcmp(argv[jpar+1],"bm")) mov=1; 
 		}
+       		if(strcmp(argv[jpar], "-sc")==0)
+		{
+          		if(!strcmp(argv[jpar+1],"kdtree")) sc=0; 
+          		if(!strcmp(argv[jpar+1],"mat")) sc=1; 
+		}
 	}
 }
 
@@ -205,9 +212,9 @@ void paste_params(Motion& motion)
 	//	fprintf(fp,"number of runs:\t\t%i\n",Nrun);
 	//	fprintf(fp,"number of clustered:\t%i\n",Ncl);
 		fprintf(fp,"\n===============================\n");
-	//	fprintf(fp,"eff. Diffusion:\t%f\n",Deff);
-	//	fprintf(fp,"pers. Time:\t%f\n",tau_c);
-	//	fprintf(fp,"pers. Length:\t%f\n",l_c);
+                fprintf(fp,"eff. Diffusion:\t%f\n", motion.getEffectiveDiffusion() );
+                fprintf(fp,"pers. Time:\t%f\n", motion.getPersistenceTime() );
+                fprintf(fp,"pers. Length:\t%f\n", motion.getPersistenceLength() );
 	//	fprintf(fp,"MQD OP:\t%f\n",OP[get]/delta_l);
 	//	fprintf(fp,"MSD OP:\t%f\n",MSD[get]);
 	//	fprintf(fp,"Mean cl time:\t%g\n",aver5(1));
@@ -264,8 +271,20 @@ int main( int argc, char* argv[] )
 	return -1;
     }
     Dogs dogs(*motion);
-    //SheepField sheep(L/delta_l, Nsb, rng);
-    SheepTree sheep(L/delta_l, Nsb, rng);
+
+    Sheep* sheep = NULL;
+    switch( sc )
+    {
+    case 0:
+        sheep = new SheepTree ( L/delta_l, Nsb, rng );
+        break;
+    case 1:
+        sheep = new SheepField ( L/delta_l, Nsb, rng );
+        break;
+    default:
+	cerr << "Sheep == " << sc << "?! Bei dir hackt's wohl!!" << endl;
+	return -1;
+    }
     World::createInstance( L, rng, t3, r1, r2, sheep, dogs );
     HarryPlotter* plotter = NULL;
     switch(pr)
@@ -317,6 +336,7 @@ int main( int argc, char* argv[] )
 
     // clean up!!!!!!!!
     {
+        delete sheep;
         delete simulation;
         delete plotter;
         delete motion;
