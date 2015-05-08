@@ -28,7 +28,8 @@ public:
     void setNSheep( size_t i, size_t j, size_t nSheep );
     virtual void getRandomSheep( size_t& i, size_t& j ) const = 0;
 
-    real sqrdistance( size_t i1, size_t j1, size_t i2, size_t j2 ) const;
+    real sqrDistance( size_t i1, size_t j1, size_t i2, size_t j2 ) const;
+    real realSpaceSqrdistance( size_t i1, size_t j1, real x, real y ) const;
 
     virtual bool first( size_t& i, size_t& j, size_t& n ) const = 0;
     virtual bool next( size_t& i, size_t& j, size_t& n ) const = 0;
