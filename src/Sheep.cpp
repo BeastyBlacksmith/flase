@@ -116,6 +116,8 @@ void Sheep::getCenterOfMass( real& x, real& y ) const
     size_t j;
     size_t n;
 
+    //TODO: center of mass doesn't seem to work...
+
     real xt1 = 0;
     real yt1 = 0;
     real xt2 = 0;

@@ -13,7 +13,7 @@ class Measure {
 public:
     
     //TODO: complete this and crack!
-    Measure( std::string filename );
+    Measure( size_t skip, std::string filename );
     ~Measure();
 
     void measure( const Sheep& sheep );
@@ -28,6 +28,8 @@ protected:
 
 private:
 
+    size_t skip;
+    size_t skipcounter;
     std::ofstream out;
 };
 

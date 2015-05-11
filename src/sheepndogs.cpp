@@ -27,7 +27,7 @@
 using namespace std;
 
 double Dphi=4.,delta_t=0.01,v0=4.,r1=.5,r2=.5,t3=10.;	//noise int.,time step, velocity, rates
-double delta_l=1.,tau_s=.01, mu=1.;	          	//interaction radius, cattle size, friction
+double delta_l=1.,tau_s=.1, mu=1.;	          	//interaction radius, cattle size, friction
 double vec=5., cl_trMSD=0.9, cl_trMQD=0.15;		//vec size, clustering threshold
 double simtime = 0.;                                    //elapsed time
 int Ns=100, Nd=50, L=200,Nsb=1;				//Number of sheep,dog, box size
@@ -50,7 +50,7 @@ void parse_params(int argc, char **argv)
 	Dd				//ang. diffusion const.
 	ts				//mean diff. time sheep
 	dt,dl 				//time step, cattle size
-	v,mu				//velocity, friction
+	v				//velocity
 	r1,r2				//change rates
 	t3				//waiting time in sleeping state
 	t,out				//end-, output-time
@@ -105,10 +105,6 @@ void parse_params(int argc, char **argv)
        		if(strcmp(argv[jpar], "-v")==0)
 		{
           		v0 = atof(argv[jpar+1]);
-		}
-       		if(strcmp(argv[jpar], "-mu")==0)
-		{
-          		mu = atof(argv[jpar+1]);
 		}
        		if(strcmp(argv[jpar], "-r1")==0)
 		{
@@ -250,8 +246,18 @@ int main( int argc, char* argv[] )
     // read parameters
 
     parse_params(argc, argv);
+    //get things right
+    {
 	t3 /= delta_t;
 	tau_s /= delta_t;
+        mu = Dphi / ( v0*v0 );          // ensures that most probable velocities match (2D)
+    }
+    //check initial conditions
+    if( Ns/Nsb > L * L / (delta_l * delta_l) )
+    {
+        printf("Too many sheep\n");
+        exit(1);
+    }
 
     // setup simulation
     Motion* motion = NULL; 
@@ -287,12 +293,12 @@ int main( int argc, char* argv[] )
     HarryPlotter* plotter = NULL;
 
     // TODO: filename from commandline?
-    Measure measure( "temp/measurements.txt" );
+    Measure measure( t_out/delta_t, "temp/measurements.txt" );
 
     switch(pr)
     {
     case 0:
-    	plotter = new GNUPlotter ( measure, t_out/delta_t, vec );
+    	plotter = new GNUPlotter ( measure, t_out/delta_t, vec*0.002*L );
 	break;
     case 1:
         plotter = new VoidPlotter;
