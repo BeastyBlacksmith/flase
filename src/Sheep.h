@@ -22,6 +22,7 @@ public:
         currentSheep( 0 )
     {
     }
+    virtual ~Sheep() {}
 
     virtual void init( size_t totalSheep );
     virtual size_t getNSheep( size_t i, size_t j ) const = 0;
@@ -29,7 +30,7 @@ public:
     virtual void getRandomSheep( size_t& i, size_t& j ) const = 0;
 
     real sqrDistance( size_t i1, size_t j1, size_t i2, size_t j2 ) const;
-    real realSpaceSqrdistance( size_t i1, size_t j1, real x, real y ) const;
+    real realSpaceSqrDistance( size_t i1, size_t j1, real x, real y ) const;
 
     virtual bool first( size_t& i, size_t& j, size_t& n ) const = 0;
     virtual bool next( size_t& i, size_t& j, size_t& n ) const = 0;

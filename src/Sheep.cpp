@@ -15,12 +15,14 @@ real Sheep::sqrDistance( size_t i1, size_t j1, size_t i2, size_t j2 ) const
     return d1*d1 + d2*d2;
 }
 
-real Sheep::realSpaceSqrdistance( size_t i, size_t j, real x, real y ) const
+real Sheep::realSpaceSqrDistance( size_t i, size_t j, real x, real y ) const
 {
-    double ri = i/size() * world.boxsize; 
-    double rj = j/size() * world.boxsize; 
-    const double d1 = mrin( abs( ri - x ), world.boxsize - abs( ri - x ) );
-    const double d2 = mrin( abs( rj - y ), world.boxsize - abs( rj - y ) );
+    World& world = World::instance();
+
+    real ri = i/size() * world.boxsize; 
+    real rj = j/size() * world.boxsize; 
+    const double d1 = min( fabs( ri - x ), world.boxsize - fabs( ri - x ) );
+    const double d2 = min( fabs( rj - y ), world.boxsize - fabs( rj - y ) );
 
     return d1*d1 + d2*d2;
 }
