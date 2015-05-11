@@ -21,9 +21,9 @@ void FiniteSimulation::run( )
         time += dt;
         ++i;
 
+        measure( world.sheep );
         plotter.plot( world, time );
     }
-    plotter.plot( world, time );
 
 }
 

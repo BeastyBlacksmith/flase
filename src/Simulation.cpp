@@ -49,11 +49,6 @@ void Simulation::iterate( real dt )
         world.dogs.work( dt );
     }
 
-    // do measurements
-    {
-        //measure( world.sheep );
-        // measure.operator()( world.sheep );
-        // measure.measure( world.sheep );
-    }
+    // do measurements (moved to FiniteSimulation, since not needed for InfinteSimulation) 
 }
 

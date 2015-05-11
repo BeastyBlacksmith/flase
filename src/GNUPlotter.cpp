@@ -1,20 +1,25 @@
 
 #include "common.h"
 #include "World.h"
+#include "Measure.h"
 
 #include "GNUPlotter.h"
 
 using namespace std;
 
 GNUPlotter::GNUPlotter(
+            Measure& measure,
             size_t skip,
             real vecsize,
             string sheepdat,
             string oscillator,
             string gnuplotscript ) :
+    measure( measure ),
     skip( skip ),
     counter( 0 ),
     vecsize( vecsize ),
+    sheepdat( sheepdat ),
+    oscillator( oscillator ),
     outMaeh( sheepdat ),
     outWuff( oscillator ),
     outGnuPlot( gnuplotscript )
@@ -70,7 +75,9 @@ void GNUPlotter::plot( World& world, real time )
         outGnuPlot << "set xrange[0:" << world.sheep.size() << "];set yrange[0:" << world.sheep.size() << "];" << "\n";
         outGnuPlot << "set title \" time=" << time << " \" " << "\n";
         outGnuPlot << "set palette model RGB defined (1 \"red\", 2 \"black\", 3 \"green\")" << "\n";
-        outGnuPlot << "pl \"" << oscillator << "\" i " << ( counter/skip ) << " u 1:2:($3*" << vecsize << "):($4*" << vecsize << "):5 w vectors palette, \"" << sheepdat << "\" i " <<  ( counter/skip ) << " u 1:2 lt 3" << "\n";
+        outGnuPlot << "pl \"" << oscillator << "\" i " << ( counter/skip ) << " u 1:2:($3*" << vecsize << "):($4*" << vecsize << "):5 w vectors palette,";
+        outGnuPlot << "\"" << sheepdat << "\" i " <<  ( counter/skip ) << " u 1:2 lt 3, ";
+        outGnuPlot << "\"" << measure.file << "\" i " << ( counter/skip ) << " u 1:2 pt 6 ps 2\n";
         outGnuPlot << "pause 0.1" << "\n" << "\n";
     }
 

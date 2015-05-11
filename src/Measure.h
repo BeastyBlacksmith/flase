@@ -19,6 +19,8 @@ public:
     void measure( const Sheep& sheep );
     void operator()( const Sheep& sheep ) { return measure( sheep ); }
 
+    const std::string file;
+
 protected:
 
     static real meanQuadraticDistance( const Sheep& sheep );

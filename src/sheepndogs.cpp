@@ -27,7 +27,7 @@
 using namespace std;
 
 double Dphi=4.,delta_t=0.01,v0=4.,r1=.5,r2=.5,t3=10.;	//noise int.,time step, velocity, rates
-double delta_l=1.,tau_s=10., mu=1.;	          	//interaction radius, cattle size, friction
+double delta_l=1.,tau_s=.01, mu=1.;	          	//interaction radius, cattle size, friction
 double vec=5., cl_trMSD=0.9, cl_trMQD=0.15;		//vec size, clustering threshold
 int Ns=100, Nd=50, L=200,Nsb=1;				//Number of sheep,dog, box size
 int t_end=1000,t_out=20, simtime=0;
@@ -61,6 +61,7 @@ void parse_params(int argc, char **argv)
 	if((argc % 2) == 0)
 	{
       		printf("wrong parameters\n");
+                exit(1);
    	}
 	for(jpar=1; jpar<argc; jpar+=2)
 	{
@@ -287,10 +288,14 @@ int main( int argc, char* argv[] )
     }
     World::createInstance( L, rng, t3, r1, r2, *sheep, dogs );
     HarryPlotter* plotter = NULL;
+
+    // TODO: filename from commandline?
+    Measure measure( "temp/measurements.txt" );
+
     switch(pr)
     {
     case 0:
-    	plotter = new GNUPlotter ( t_out/delta_t, vec );
+    	plotter = new GNUPlotter ( measure, t_out/delta_t, vec );
 	break;
     case 1:
         plotter = new VoidPlotter;
@@ -302,9 +307,6 @@ int main( int argc, char* argv[] )
 	cerr << "Plotter == " << pr << "?! Bei dir hackt's wohl!!" << endl;
 	return -1;
     }
-
-    // TODO: filename from commandline?
-    Measure measure( "temp/measurements.txt" );
 
     sheep->init(Ns);
     

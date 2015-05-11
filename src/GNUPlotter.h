@@ -14,10 +14,11 @@ class GNUPlotter : public HarryPlotter
 public:
 
     GNUPlotter(
+            Measure& measure,
             size_t skip = 1,
             real vecsize = 1.,
-            std::string sheepdat = "sheeppl.dat",
-            std::string oscillator = "oscillator.dat",
+            std::string sheepdat = "temp/sheeppl.dat",
+            std::string oscillator = "temp/oscillator.dat",
             std::string gnuplotscript = "havefun.gp" );
     ~GNUPlotter();
 
@@ -25,6 +26,7 @@ public:
 
 protected:
 
+    Measure& measure;
     size_t skip;
     size_t counter;
     real vecsize;
