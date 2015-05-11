@@ -77,7 +77,7 @@ void GNUPlotter::plot( World& world, real time )
         outGnuPlot << "set palette model RGB defined (1 \"red\", 2 \"black\", 3 \"green\")" << "\n";
         outGnuPlot << "pl \"" << oscillator << "\" i " << ( counter/skip ) << " u 1:2:($3*" << vecsize << "):($4*" << vecsize << "):5 w vectors palette,";
         outGnuPlot << "\"" << sheepdat << "\" i " <<  ( counter/skip ) << " u 1:2 lt 3, ";
-        outGnuPlot << "\"" << measure.file << "\" i " << ( counter/skip ) << " u 1:2:" << world.sheep.getClusterRadius() <<" with circles ps 2\n";
+        outGnuPlot << "\"" << measure.file << "\" i " << ( counter/skip ) << " u 1:2:(" << world.sheep.getClusterRadius() <<") with circles\n";
         outGnuPlot << "pause 0.1" << "\n" << "\n";
     }
 

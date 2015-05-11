@@ -151,7 +151,9 @@ void Sheep::getCenterOfMass( real& x, real& y ) const
 
 real Sheep::getClusterRadius() const
 {
-    real clusterRadius = sqrt( getCurrentSheep() / capacity / Constants::pi ) * size();
+    World& world = World::instance();
+
+    real clusterRadius = sqrt( getCurrentSheep() / capacity / Constants::pi ) * world.boxsize / size();
 
     return clusterRadius;
 }
