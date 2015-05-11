@@ -29,8 +29,9 @@ using namespace std;
 double Dphi=4.,delta_t=0.01,v0=4.,r1=.5,r2=.5,t3=10.;	//noise int.,time step, velocity, rates
 double delta_l=1.,tau_s=.01, mu=1.;	          	//interaction radius, cattle size, friction
 double vec=5., cl_trMSD=0.9, cl_trMQD=0.15;		//vec size, clustering threshold
+double simtime = 0.;                                    //elapsed time
 int Ns=100, Nd=50, L=200,Nsb=1;				//Number of sheep,dog, box size
-int t_end=1000,t_out=20, simtime=0;
+int t_end=1000,t_out=20;
 int pr=0, mov=0, sc=0, fbreak=2;                        //class switches
 
 void parse_params(int argc, char **argv)
@@ -162,10 +163,6 @@ void parse_params(int argc, char **argv)
 
 void paste_params(Motion& motion)
 {
-	//TODO: check this
-	//int get= (int) t*delta_t/t_out;
-	//if(t==simtime) get --;
-
 	printf("Ns:\t%i\n",Ns);
 	printf("Nd:\t%i\n",Nd);
 	printf("Box:\t%i\n",L);
@@ -180,7 +177,7 @@ void paste_params(Motion& motion)
 	printf("timestep:\t\t%g\n",delta_t);
 	printf("endtime:\t\t%d\n",t_end);
 	printf("output:\t\t\t%d\n",t_out);
-	//printf("time elapsed:\t\t%g\n",t*delta_t);
+	printf("time elapsed:\t\t%g\n",simtime);
 	//printf("number of runs:\t\t%i\n",Nrun);
 	//printf("number of clustered:\t%i\n",Ncl);
 	printf("\n===============================\n");
@@ -209,7 +206,7 @@ void paste_params(Motion& motion)
 		fprintf(fp,"timestep:\t\t%g\n",delta_t);
 		fprintf(fp,"endtime:\t\t%d\n",t_end);
 		fprintf(fp,"output:\t\t\t%d\n",t_out);
-	//	fprintf(fp,"time elapsed:\t\t%g\n",t*delta_t);
+		fprintf(fp,"time elapsed:\t\t%g\n",simtime);
 	//	fprintf(fp,"number of runs:\t\t%i\n",Nrun);
 	//	fprintf(fp,"number of clustered:\t%i\n",Ncl);
 		fprintf(fp,"\n===============================\n");
@@ -322,16 +319,15 @@ int main( int argc, char* argv[] )
     
     dogs.init(Nd, v0);
 
-    //Print parameters
-    paste_params( *motion );
-
     //measure time
     //simulate
     Clock clock;
     clock.tick();
-    simulation->run();
+    simtime = simulation->run();
     clock.tick();
 
+    //Print parameters
+    paste_params( *motion );
 
     cout << "Time per run: " << clock.getFrameTime() << " s" << endl;
     // let's have some fun

@@ -9,7 +9,7 @@ InfiniteSimulation::InfiniteSimulation( HarryPlotter& plotter, real meanSheepDif
 {
 }
 
-void InfiniteSimulation::run( )
+real InfiniteSimulation::run( )
 {
     World& world = World::instance();
 
@@ -22,6 +22,7 @@ void InfiniteSimulation::run( )
 
         plotter.plot( world, time );
     }
-
+    
+    return time;
 }
 

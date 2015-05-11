@@ -1,4 +1,5 @@
 
+#include "common.h"
 #include "FiniteSimulation.h"
 
 using namespace std;
@@ -10,7 +11,7 @@ FiniteSimulation::FiniteSimulation( HarryPlotter& plotter, real meanSheepDiffusi
 {
 }
 
-void FiniteSimulation::run( )
+real FiniteSimulation::run( )
 {
     World& world = World::instance();
 
@@ -24,6 +25,7 @@ void FiniteSimulation::run( )
         measure( world.sheep );
         plotter.plot( world, time );
     }
-
+    
+    return time;
 }
 

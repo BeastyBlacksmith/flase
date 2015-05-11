@@ -37,6 +37,7 @@ public:
 
     size_t getCapacity() const { return capacity; }
     size_t getCurrentSheep() const { return currentSheep; }
+    real getClusterRadius() const;
 
     void kickSheep();
     void diffuseSheep( size_t i, size_t j );

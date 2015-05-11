@@ -12,7 +12,7 @@ public:
 
     FiniteSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure, real dt, real judgementtime );
 
-    void run( );
+    real run( );
 
 protected:
 
