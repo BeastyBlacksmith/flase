@@ -16,7 +16,7 @@ real FiniteSimulation::run( )
     World& world = World::instance();
 
     size_t i = 0;
-    while( time < judgementtime ) {
+    while( time <= judgementtime ) {
         iterate( dt );
 
         time += dt;

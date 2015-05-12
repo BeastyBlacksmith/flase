@@ -31,6 +31,8 @@ GNUPlotter::~GNUPlotter()
 {
     outMaeh.flush();
     outWuff.flush();
+
+    outGnuPlot << "pause -1" <<"\n";
     outGnuPlot.flush();
 }
 
@@ -73,16 +75,16 @@ void GNUPlotter::plot( World& world, real time )
         outWuff << world.dogs << "\n" << "\n";
 
         outGnuPlot << "set size square" << "\n";
-        outGnuPlot << "set terminal wxt size 1300,1300" << "\n";
+        outGnuPlot << "set terminal wxt size 750,750" << "\n";
         outGnuPlot << "unset key" << "\n";
         outGnuPlot << "set cbrange [1:3]" << "\n";
         outGnuPlot << "set xrange[0:" << world.boxsize << "];set yrange[0:" << world.boxsize << "];" << "\n";
-        outGnuPlot << "set title \" time=" << time << ", Asheep=" << sqrt(world.sheep.getCurrentSheep()) <<" \" " << "\n";
+        outGnuPlot << "set title \" time=" << time << ", Asheep=" << (sqrt(world.sheep.getCurrentSheep()) * scale) <<" \" " << "\n";
         outGnuPlot << "set palette model RGB defined (1 \"red\", 2 \"black\", 3 \"green\")" << "\n";
         outGnuPlot << "pl \"" << oscillator << "\" i " << ( counter/skip ) << " u 1:2:($3*" << vecsize << "):($4*" << vecsize << "):5 w vectors palette,";
         outGnuPlot << "\"" << sheepdat << "\" i " <<  ( counter/skip ) << " u ($1*" << scale <<"):($2*" << scale  <<"):(" << scale <<") w circles lc 3, ";
         outGnuPlot << "\"" << measure.file << "\" i " << ( counter/skip ) << " u 1:2:(" << world.sheep.getClusterRadius() <<") with circles lc 4\n";
-        outGnuPlot << "pause 0.1" << "\n" << "\n";
+        outGnuPlot << "pause 0.04" << "\n" << "\n";
     }
 
     ++counter;
