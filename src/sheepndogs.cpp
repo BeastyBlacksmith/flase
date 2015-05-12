@@ -27,7 +27,7 @@
 using namespace std;
 
 double Dphi=4.,delta_t=0.01,v0=4.,r1=.5,r2=.5,t3=10.;	//noise int.,time step, velocity, rates
-double delta_l=1.,tau_s=.1, mu=1.;	          	//interaction radius, cattle size, friction
+double delta_l=1.,tau_s=10, mu=1.;	          	//interaction radius, cattle size, friction
 double vec=5., cl_trMSD=0.9, cl_trMQD=0.15;		//vec size, clustering threshold
 double simtime = 0.;                                    //elapsed time
 int Ns=100, Nd=50, L=200,Nsb=1;				//Number of sheep,dog, box size

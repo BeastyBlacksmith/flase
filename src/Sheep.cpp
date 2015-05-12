@@ -116,39 +116,42 @@ void Sheep::getCenterOfMass( real& x, real& y ) const
     size_t j;
     size_t n;
 
-    //TODO: center of mass doesn't seem to work...
+    World& world = World::instance();
 
     real xt1 = 0;
     real yt1 = 0;
     real xt2 = 0;
     real yt2 = 0;
-    real r = size()/2./Constants::pi;
+    real r = size() / (2. * Constants::pi);
     real phi1, phi2;
 
-    World& world = World::instance();
 
     if( first( i, j, n ) ) {
         xt1 += n * cos( i/r );
         yt1 += n * sin( i/r ); 
+
         xt2 += n * cos( j/r );
         yt2 += n * sin( j/r ); 
 
         while( next( i, j, n ) ) {
             xt1 += n * cos( i/r );
             yt1 += n * sin( i/r ); 
+
             xt2 += n * cos( j/r );
             yt2 += n * sin( j/r ); 
         }
     }
-    if( xt1 == 0 && yt1 == 0 ) phi1 = 2*Constants::pi* (real) rand()/RAND_MAX;
-    else phi1 = atan2( yt1,xt1 );
-    if( phi1 < 0. ) phi1 += 2*Constants::pi;
-    if( xt2 == 0 && yt2 == 0 ) phi2 = 2*Constants::pi* (real) rand()/RAND_MAX;
-    else phi2 = atan2( yt2,xt2 );
-    if( phi2 < 0. ) phi2 += 2*Constants::pi;
 
-    x = phi1*world.boxsize/2./Constants::pi;
-    y = phi2*world.boxsize/2./Constants::pi;
+    if( xt1 == 0 && yt1 == 0 ) phi1 = 2 * Constants::pi * (real) rand()/RAND_MAX;
+    else phi1 = atan2( yt1, xt1 );
+    if( phi1 < 0. ) phi1 += 2 * Constants::pi;
+
+    if( xt2 == 0 && yt2 == 0 ) phi2 = 2 * Constants::pi * (real) rand()/RAND_MAX;
+    else phi2 = atan2( yt2, xt2 );
+    if( phi2 < 0. ) phi2 += 2 * Constants::pi;
+
+    x = phi1 * world.boxsize / (2. * Constants::pi);
+    y = phi2 * world.boxsize / (2. * Constants::pi);
 }
 
 real Sheep::getClusterRadius() const
