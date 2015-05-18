@@ -55,7 +55,7 @@ void Doggy::work( real dt )
                 state = SLEEPY;
 
                 // TODO: possibly, this should be exchangeable / overrideable
-                sleepyness = gsl_ran_exponential( world.rng, world.meanSleepyness ) / dt;
+                sleepyness = gsl_ran_exponential( world.rng, world.meanSleepyness );
             }
         }
         break;
