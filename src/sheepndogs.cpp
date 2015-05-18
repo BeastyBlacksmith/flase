@@ -165,11 +165,11 @@ void paste_params(Motion& motion)
 	printf("Cattle:\t%g\n",delta_l);
 	printf("Sheep per Box:\t%i\n",Nsb);
 	printf("Noise int:\t\t%g\n",Dphi);
-	printf("Sheeptime:\t\t%g\n",tau_s*delta_t);
+	printf("Sheeptime:\t\t%g\n",tau_s);
 	printf("Velocity:\t\t%g\n",v0);
 	printf("Rate 1->2:\t\t%g\n",r1);
 	printf("Rate 2->3:\t\t%g\n",r2);
-	printf("Time 3->1:\t\t%g\n",t3*delta_t);
+	printf("Time 3->1:\t\t%g\n",t3);
 	printf("timestep:\t\t%g\n",delta_t);
 	printf("endtime:\t\t%d\n",t_end);
 	printf("output:\t\t\t%d\n",t_out);
@@ -194,11 +194,11 @@ void paste_params(Motion& motion)
 		fprintf(fp,"Cattle:\t%g\n",delta_l);
 		fprintf(fp,"Sheep per Box:\t%i\n",Nsb);
 		fprintf(fp,"Noise int:\t\t%g\n",Dphi);
-		fprintf(fp,"Sheeptime:\t\t%g\n",tau_s*delta_t);
+		fprintf(fp,"Sheeptime:\t\t%g\n",tau_s);
 		fprintf(fp,"Velocity:\t\t%g\n",v0);
 		fprintf(fp,"Rate 1->2:\t\t%g\n",r1);
 		fprintf(fp,"Rate 2->3:\t\t%g\n",r2);
-		fprintf(fp,"Time 3->1:\t\t%g\n",t3*delta_t);
+		fprintf(fp,"Time 3->1:\t\t%g\n",t3);
 		fprintf(fp,"timestep:\t\t%g\n",delta_t);
 		fprintf(fp,"endtime:\t\t%d\n",t_end);
 		fprintf(fp,"output:\t\t\t%d\n",t_out);
@@ -215,16 +215,6 @@ void paste_params(Motion& motion)
 	//	fprintf(fp," -\"- +/- :\t%g\n",sigma5(1));
 
 	fclose(fp);
-
-//	OP[0]=1;
-//	fp=fopen("./temp/msd.dat","w");
-//	
-//	for(i=0;i<=get;i++)
-//	{
-//		fprintf(fp,"%g\t%g\n",OP[i],MSD[i]);
-//	}
-//	fprintf(fp,"\n\n");
-//	fclose(fp);
 }
 
 int main( int argc, char* argv[] )
@@ -248,8 +238,6 @@ int main( int argc, char* argv[] )
     parse_params(argc, argv);
     //get things right
     {
-	t3 /= delta_t;
-	tau_s /= delta_t;
         mu = Dphi / ( v0*v0 );          // ensures that most probable velocities match (2D)
     }
     //check initial conditions
