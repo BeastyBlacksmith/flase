@@ -7,6 +7,7 @@
 #include <fstream>
 
 #include "common.h"
+#include "World.h"
 #include "Sheep.h"
 
 class Measure {
@@ -16,8 +17,8 @@ public:
     Measure( size_t skip, std::string filename );
     ~Measure();
 
-    void measure( const Sheep& sheep );
-    void operator()( const Sheep& sheep ) { return measure( sheep ); }
+    void measure( const World& world );
+    void operator()( const World& world ) { return measure( world ); }
 
     const std::string file;
 
@@ -27,6 +28,8 @@ protected:
     static real meanSquareDisplacement( const Sheep& sheep );
 
 private:
+    real mqdNorm = 1.;
+    real msdNorm = 1.;
 
     size_t skip;
     size_t skipcounter;
