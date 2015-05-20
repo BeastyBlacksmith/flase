@@ -19,8 +19,8 @@ real Sheep::realSpaceSqrDistance( size_t i, size_t j, real x, real y ) const
 {
     World& world = World::instance();
 
-    real ri = i/size() * world.boxsize; 
-    real rj = j/size() * world.boxsize; 
+    const double ri = (double) i/size() * world.boxsize; 
+    const double rj = (double) j/size() * world.boxsize; 
     const double d1 = min( fabs( ri - x ), world.boxsize - fabs( ri - x ) );
     const double d2 = min( fabs( rj - y ), world.boxsize - fabs( rj - y ) );
 

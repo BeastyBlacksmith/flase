@@ -300,6 +300,7 @@ int main( int argc, char* argv[] )
     }
 
     sheep->init(Ns);
+    measure.init();
     
     Simulation* simulation = NULL;
     if( pr == 2 )

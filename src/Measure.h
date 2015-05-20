@@ -20,6 +20,10 @@ public:
     void measure( const World& world );
     void operator()( const World& world ) { return measure( world ); }
 
+    void init();
+    real getMQD() { return mqdValue; }
+    real getMSD() { return msdValue; }
+
     const std::string file;
 
 protected:
@@ -30,6 +34,8 @@ protected:
 private:
     real mqdNorm = 1.;
     real msdNorm = 1.;
+    real mqdValue = 0.;
+    real msdValue = 0.;
 
     size_t skip;
     size_t skipcounter;

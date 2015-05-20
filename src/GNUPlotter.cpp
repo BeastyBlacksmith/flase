@@ -69,7 +69,7 @@ std::ostream& operator<<( std::ostream &out, const Dogs& dogs )
 void GNUPlotter::plot( World& world, real time )
 {
     if( counter % skip == 0 ) {
-        real scale = world.boxsize/world.sheep.size();
+        real scale = world.boxsize / world.sheep.size();
 
         outMaeh << world.sheep << "\n" << "\n";
         outWuff << world.dogs << "\n" << "\n";
@@ -79,7 +79,7 @@ void GNUPlotter::plot( World& world, real time )
         outGnuPlot << "unset key" << "\n";
         outGnuPlot << "set cbrange [1:3]" << "\n";
         outGnuPlot << "set xrange[0:" << world.boxsize << "];set yrange[0:" << world.boxsize << "];" << "\n";
-        outGnuPlot << "set title \" time=" << time << ", Asheep=" << (sqrt(world.sheep.getCurrentSheep()) * scale) <<" \" " << "\n";
+        outGnuPlot << "set title \" time=" << time << ", Cluster=" << measure.getMSD() <<" / " << measure.getMQD() << "\"\n";
         outGnuPlot << "set palette model RGB defined (1 \"red\", 2 \"black\", 3 \"green\")" << "\n";
         outGnuPlot << "pl \"" << oscillator << "\" i " << ( counter/skip ) << " u 1:2:($3*" << vecsize << "):($4*" << vecsize << "):5 w vectors palette,";
         outGnuPlot << "\"" << sheepdat << "\" i " <<  ( counter/skip ) << " u ($1*" << scale <<"):($2*" << scale  <<"):(" << ( scale/2 ) <<") w circles lc 3, ";
