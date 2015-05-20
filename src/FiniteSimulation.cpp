@@ -22,7 +22,7 @@ real FiniteSimulation::run( )
         time += dt;
         ++i;
 
-        measure( world );
+        measure( world, time );
         plotter.plot( world, time );
     }
     
