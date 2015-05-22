@@ -10,6 +10,7 @@
 
 #include "Clock.h"
 
+#include "ClusterTimeSimulation.h"
 #include "FiniteSimulation.h"
 #include "InfiniteSimulation.h"
 
@@ -28,11 +29,11 @@ using namespace std;
 
 double Dphi=4.,delta_t=0.01,v0=4.,r1=.5,r2=.5,t3=10.;	//noise int.,time step, velocity, rates
 double delta_l=1.,tau_s=10, mu=1.;	          	//interaction radius, cattle size, friction
-double vec=5., cl_trMSD=0.9, cl_trMQD=0.15;		//vec size, clustering threshold
+double vec=5., cl_trMSD=0.7, cl_trMQD=0.1;		//vec size, clustering threshold
 double simtime = 0.;                                    //elapsed time
 int Ns=100, Nd=50, L=200,Nsb=1;				//Number of sheep,dog, box size
 int t_end=1000,t_out=20;
-int pr=0, mov=0, sc=0, fbreak=2;                        //class switches
+int pr=0, mov=0, sc=0, fbreak=0, sim=0;                 //class switches
 
 void parse_params(int argc, char **argv)
 {
@@ -43,7 +44,7 @@ void parse_params(int argc, char **argv)
 	pr:				//printing flag 
 		GNU: generate GNUplot script (default), GL: 3D GL plotter (infinite), void: no plot		
 	break:				//break flag
-		0: MQD 1: MQD+MSD 2: MSD (default)
+		0: MSD (default) 1: MQD 2: MSD+MQD
         sc:                             //sheep container
             kdtree: use kdtree (default), mat: use matrix (faster for small grid)
 	L,vec				//box-, vec-length
@@ -54,9 +55,11 @@ void parse_params(int argc, char **argv)
 	r1,r2				//change rates
 	t3				//waiting time in sleeping state
 	t,out				//end-, output-time
-	tr1,tr2	 1:MSD, 2:MQD		//threshold for clustering
-	m: bm: brownian motion		//change movment
-	   cv: const velocity (default)
+	msdtr, mqdtr    		//threshold for clustering
+	m: 		                //change movment
+	   cv: const velocity (default), bm: brownian motion
+        sim:                            //change simulation
+            inf: infinite sim., finite: finite sim., cltime: clustering time sim.
 */
 	int jpar;
 	if((argc % 2) == 0)
@@ -94,11 +97,11 @@ void parse_params(int argc, char **argv)
 		{
           		delta_l = atof(argv[jpar+1]);
 		}
-       		if(strcmp(argv[jpar], "-tr1")==0)
+       		if(strcmp(argv[jpar], "-msdtr")==0)
 		{
           		cl_trMSD = atof(argv[jpar+1]);
 		}
-       		if(strcmp(argv[jpar], "-tr2")==0)
+       		if(strcmp(argv[jpar], "-mqdtr")==0)
 		{
           		cl_trMQD = atof(argv[jpar+1]);
 		}
@@ -139,6 +142,12 @@ void parse_params(int argc, char **argv)
           		if(!strcmp(argv[jpar+1],"GNU")) pr=0; 
           		if(!strcmp(argv[jpar+1],"void")) pr=1; 
           		if(!strcmp(argv[jpar+1],"GL")) pr=2; 
+		}
+       		if(strcmp(argv[jpar], "-sim")==0)
+		{
+          		if(!strcmp(argv[jpar+1],"finite")) sim=0; 
+          		if(!strcmp(argv[jpar+1],"inf")) sim=1; 
+          		if(!strcmp(argv[jpar+1],"cltime")) sim=2; 
 		}
        		if(strcmp(argv[jpar], "-break")==0)
 		{
@@ -293,6 +302,7 @@ int main( int argc, char* argv[] )
         break;
     case 2:
     	plotter = new GLPlotter;
+        sim = 1;
 	break;
     default:
 	cerr << "Plotter == " << pr << "?! Bei dir hackt's wohl!!" << endl;
@@ -303,13 +313,21 @@ int main( int argc, char* argv[] )
     measure.init();
     
     Simulation* simulation = NULL;
-    if( pr == 2 )
+
+    switch( sim )
     {
-    	simulation = new InfiniteSimulation ( *plotter, tau_s, rng, measure, delta_t );
-    }
-    else
-    {
+    case 0:
     	simulation = new FiniteSimulation ( *plotter, tau_s, rng, measure, delta_t, t_end );
+        break;
+    case 1:
+    	simulation = new InfiniteSimulation ( *plotter, tau_s, rng, measure, delta_t );
+        break;
+    case 2:
+    	simulation = new ClusterTimeSimulation ( *plotter, tau_s, rng, measure, delta_t, cl_trMSD, cl_trMQD, fbreak );
+        break;
+    default:
+	cerr << "Simulation == " << sim << "?! Bei dir hackt's wohl!!" << endl;
+	return -1;
     }
     
     dogs.init(Nd, v0);
