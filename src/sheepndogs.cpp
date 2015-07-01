@@ -37,30 +37,33 @@ int pr=0, mov=0, sc=0, fbreak=0, sim=0;                 //class switches
 
 void parse_params(int argc, char **argv)
 {
-/* Parameters to set:
-
-	Ns,Nd				//Particle Numbers
-	Nsb				//Number of sheep/cattle
-	pr:				//printing flag 
-		GNU: generate GNUplot script (default), GL: 3D GL plotter (infinite), void: no plot		
-	break:				//break flag
-		0: MSD (default) 1: MQD 2: MSD+MQD
-        sc:                             //sheep container
-            kdtree: use kdtree (default), mat: use matrix (faster for small grid)
-	L,vec				//box-, vec-length
-	Dd				//ang. diffusion const.
-	ts				//mean diff. time sheep
-	dt,dl 				//time step, cattle size
-	v				//velocity
-	r1,r2				//change rates
-	t3				//waiting time in sleeping state
-	t,out				//end-, output-time
-	msdtr, mqdtr    		//threshold for clustering
-	m: 		                //change movment
-	   cv: const velocity (default), bm: brownian motion
-        sim:                            //change simulation
-            inf: infinite sim., finite: finite sim., cltime: clustering time sim.
-*/
+        if( strcmp( argv[1], "--help") == 0 )
+        {
+                printf("Parameters to set:\n");
+                printf(" ( default value )\n\n");
+                printf("	Ns,Nd \t( 100, 50 )		//Particle Numbers\n");
+                printf("	Nsb \t( 1 )			//Number of sheep/cattle\n");
+                printf("	pr: \t( GNU )			//printing flag\n");
+                printf("		GNU: generate GNUplot script (default), GL: 3D GL plotter (infinite), void: no plot\n");
+                printf("	break: \t( 0 )			//break flag\n");
+                printf("		0: MSD (default) 1: MQD 2: MSD+MQD\n");
+                printf("        sc:                             //sheep container\n");
+                printf("            kdtree: use kdtree (default), mat: use matrix (faster for small grid)\n");
+                printf("	L,vec \t( 200, 5 )		//box-, vec-length                       \n");
+                printf("	Dd \t( 4 )			//ang. diffusion const.                  \n");
+                printf("	ts \t( 10 )			//mean diff. time sheep                  \n");
+                printf("	dt,dl \t( 0.01, 1 )		//time step, cattle size                 \n");
+                printf("	v \t( 4 )			//velocity                               \n");
+                printf("	r1,r2 \t( 5, 5 )		//change rates                           \n");
+                printf("	t3 \t( 10 )			//waiting time in sleeping state         \n");
+                printf("	t,out \t( 1000, 20 )		//end-, output-time                      \n");
+                printf("	msdtr, mqdtr \t( 0.7, 0.1 )	//threshold for clustering (MSD and MQD) \n");
+                printf("	m: 		                //change movment                         \n");
+                printf("	   cv: const velocity (default), bm: brownian motion                     \n");
+                printf("        sim:                            //change simulation                      \n");
+                printf("            inf: infinite sim., finite: finite sim. (default), cltime: clustering time sim.\n");
+                exit(0);
+        }
 	int jpar;
 	if((argc % 2) == 0)
 	{
