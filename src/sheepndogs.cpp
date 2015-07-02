@@ -34,6 +34,7 @@ double simtime = 0.;                                    //elapsed time
 int Ns=100, Nd=50, L=200,Nsb=1;				//Number of sheep,dog, box size
 int t_end=1000,t_out=20;
 int pr=0, mov=0, sc=0, fbreak=0, sim=0;                 //class switches
+string mout="temp/measure.txt";                              //measure output file
 
 void parse_params(int argc, char **argv)
 {
@@ -49,19 +50,21 @@ void parse_params(int argc, char **argv)
                 printf("		0: MSD (default) 1: MQD 2: MSD+MQD\n");
                 printf("        sc:                             //sheep container\n");
                 printf("            kdtree: use kdtree (default), mat: use matrix (faster for small grid)\n");
-                printf("	L,vec \t( 200, 5 )		//box-, vec-length                       \n");
-                printf("	Dd \t( 4 )			//ang. diffusion const.                  \n");
-                printf("	ts \t( 10 )			//mean diff. time sheep                  \n");
-                printf("	dt,dl \t( 0.01, 1 )		//time step, cattle size                 \n");
-                printf("	v \t( 4 )			//velocity                               \n");
-                printf("	r1,r2 \t( 5, 5 )		//change rates                           \n");
-                printf("	t3 \t( 10 )			//waiting time in sleeping state         \n");
-                printf("	t,out \t( 1000, 20 )		//end-, output-time                      \n");
-                printf("	msdtr, mqdtr \t( 0.7, 0.1 )	//threshold for clustering (MSD and MQD) \n");
-                printf("	m: 		                //change movment                         \n");
-                printf("	   cv: const velocity (default), bm: brownian motion                     \n");
-                printf("        sim:                            //change simulation                      \n");
+                printf("	L,vec \t( 200, 5 )		//box-, vec-length                      \n");
+                printf("	Dd \t( 4 )			//ang. diffusion const.                 \n");
+                printf("	ts \t( 10 )			//mean diff. time sheep                 \n");
+                printf("	dt,dl \t( 0.01, 1 )		//time step, cattle size                \n");
+                printf("	v \t( 4 )			//velocity                              \n");
+                printf("	r1,r2 \t( 5, 5 )		//change rates                          \n");
+                printf("	t3 \t( 10 )			//waiting time in sleeping state        \n");
+                printf("	t,out \t( 1000, 20 )		//end-, output-time                     \n");
+                printf("	msdtr, mqdtr \t( 0.7, 0.1 )	//threshold for clustering (MSD and MQD)\n");
+                printf("	m: 		                //change movment                        \n");
+                printf("	   cv: const velocity (default), bm: brownian motion                    \n");
+                printf("        sim:                            //change simulation                     \n");
                 printf("            inf: infinite sim., finite: finite sim. (default), cltime: clustering time sim.\n");
+                printf("	mout \t( \"temp/measure.txt\" )	//measure outputfile                    \n");
+                printf("                void: no output                                                 \n");
                 exit(0);
         }
 	int jpar;
@@ -161,6 +164,10 @@ void parse_params(int argc, char **argv)
           		if(!strcmp(argv[jpar+1],"cv")) mov=0; 
           		if(!strcmp(argv[jpar+1],"bm")) mov=1; 
 		}
+       		if(strcmp(argv[jpar], "-mout")==0)
+		{
+                        mout = argv[jpar+1];
+		}
        		if(strcmp(argv[jpar], "-sc")==0)
 		{
           		if(!strcmp(argv[jpar+1],"kdtree")) sc=0; 
@@ -192,10 +199,7 @@ void paste_params(Motion& motion)
 	printf("eff. Diffusion:\t%f\n", motion.getEffectiveDiffusion() );
 	printf("pers. Time:\t%f\n", motion.getPersistenceTime() );
 	printf("pers. Length:\t%f\n", motion.getPersistenceLength() );
-	//printf("MQD OP:\t%f\n",OP[get]/delta_l);
-	//printf("MSD OP:\t%f\n",MSD[get]);
-	//printf("Mean cl time:\t%g\n",aver5(1));
-	//printf(" -\"- +/- :\t%g\n",sigma5(1));
+	printf("\n===============================\n");
 
 	FILE *fp;
 	fp=fopen("./temp/parameters.dat","w");
@@ -221,10 +225,7 @@ void paste_params(Motion& motion)
                 fprintf(fp,"eff. Diffusion:\t%f\n", motion.getEffectiveDiffusion() );
                 fprintf(fp,"pers. Time:\t%f\n", motion.getPersistenceTime() );
                 fprintf(fp,"pers. Length:\t%f\n", motion.getPersistenceLength() );
-	//	fprintf(fp,"MQD OP:\t%f\n",OP[get]/delta_l);
-	//	fprintf(fp,"MSD OP:\t%f\n",MSD[get]);
-	//	fprintf(fp,"Mean cl time:\t%g\n",aver5(1));
-	//	fprintf(fp," -\"- +/- :\t%g\n",sigma5(1));
+		fprintf(fp,"\n===============================\n");
 
 	fclose(fp);
 }
@@ -292,8 +293,7 @@ int main( int argc, char* argv[] )
     World::createInstance( L, rng, t3, r1, r2, *sheep, dogs );
     HarryPlotter* plotter = NULL;
 
-    // TODO: filename from commandline?
-    Measure measure( t_out/delta_t, "temp/measurements.txt" );
+    Measure measure( t_out/delta_t, mout );
 
     switch(pr)
     {
@@ -356,6 +356,6 @@ int main( int argc, char* argv[] )
         delete motion;
     }
 
-	return 0;
+    return 0;
 }
 
