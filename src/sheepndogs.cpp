@@ -25,6 +25,8 @@
 #include "GNUPlotter.h"
 #include "GLPlotter.h"
 
+#include "Measure.h"
+
 using namespace std;
 
 double Dphi=4.,delta_t=0.01,v0=4.,r1=.5,r2=.5,t3=10.;	//noise int.,time step, velocity, rates
@@ -293,12 +295,21 @@ int main( int argc, char* argv[] )
     World::createInstance( L, rng, t3, r1, r2, *sheep, dogs );
     HarryPlotter* plotter = NULL;
 
-    Measure measure( t_out/delta_t, mout );
+    VoidMeasure* measure = NULL;
+    if( mout == "void" )
+    {
+        measure = new VoidMeasure( t_out/delta_t );
+        if( pr == 0 ) pr = 1;
+    }
+    else
+    {
+        measure = new Measure( t_out/delta_t, mout );
+    }
 
     switch(pr)
     {
     case 0:
-    	plotter = new GNUPlotter ( measure, t_out/delta_t, vec*0.002*L );
+    	plotter = new GNUPlotter ( *measure, t_out/delta_t, vec*0.002*L );
 	break;
     case 1:
         plotter = new VoidPlotter;
@@ -313,20 +324,20 @@ int main( int argc, char* argv[] )
     }
 
     sheep->init(Ns);
-    measure.init();
+    measure->init();
     
     Simulation* simulation = NULL;
 
     switch( sim )
     {
     case 0:
-    	simulation = new FiniteSimulation ( *plotter, tau_s, rng, measure, delta_t, t_end );
+    	simulation = new FiniteSimulation ( *plotter, tau_s, rng, *measure, delta_t, t_end );
         break;
     case 1:
-    	simulation = new InfiniteSimulation ( *plotter, tau_s, rng, measure, delta_t );
+    	simulation = new InfiniteSimulation ( *plotter, tau_s, rng, *measure, delta_t );
         break;
     case 2:
-    	simulation = new ClusterTimeSimulation ( *plotter, tau_s, rng, measure, delta_t, cl_trMSD, cl_trMQD, fbreak );
+    	simulation = new ClusterTimeSimulation ( *plotter, tau_s, rng, *measure, delta_t, cl_trMSD, cl_trMQD, fbreak );
         break;
     default:
 	cerr << "Simulation == " << sim << "?! Bei dir hackt's wohl!!" << endl;
@@ -354,6 +365,7 @@ int main( int argc, char* argv[] )
         delete simulation;
         delete plotter;
         delete motion;
+        delete measure;
     }
 
     return 0;

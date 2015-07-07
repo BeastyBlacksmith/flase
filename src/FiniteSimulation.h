@@ -10,7 +10,7 @@ class FiniteSimulation : public Simulation
 {
 public:
 
-    FiniteSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure, real dt, real judgementtime );
+    FiniteSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, VoidMeasure& measure, real dt, real judgementtime );
 
     real run( );
 

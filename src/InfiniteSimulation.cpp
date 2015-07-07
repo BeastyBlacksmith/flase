@@ -3,7 +3,7 @@
 
 using namespace std;
 
-InfiniteSimulation::InfiniteSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure, real dt ) :
+InfiniteSimulation::InfiniteSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, VoidMeasure& measure, real dt ) :
     Simulation( plotter, meanSheepDiffusionTime, rng, measure ),
     dt( dt )
 {

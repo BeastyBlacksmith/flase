@@ -8,28 +8,19 @@
 
 #include "common.h"
 #include "World.h"
-#include "Sheep.h"
+#include "VoidMeasure.h"
 
-class Measure {
+class Measure : public VoidMeasure
+{
 public:
     
-    //TODO: complete this and crack!
     Measure( size_t skip, std::string filename );
     ~Measure();
 
     void measure( const World& world, const real time );
     void operator()( const World& world, const real time ) { return measure( world, time ); }
 
-    void init();
-    real getMQD() { return mqdValue; }
-    real getMSD() { return msdValue; }
-
     const std::string file;
-
-protected:
-
-    static real meanQuadraticDistance( const Sheep& sheep );
-    static real meanSquareDisplacement( const Sheep& sheep );
 
 private:
     real mqdNorm = 1.;

@@ -7,13 +7,13 @@
 
 #include "common.h"
 #include "HarryPlotter.h"
-#include "Measure.h"
+#include "VoidMeasure.h"
 
 class Simulation
 {
 public:
 
-    Simulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure );
+    Simulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, VoidMeasure& measure );
     virtual ~Simulation() {}
 
     virtual real run( ) = 0;
@@ -30,7 +30,7 @@ protected:
     real tsheepboredom;
     real meanSheepDiffusionTime;
 
-    Measure& measure;
+    VoidMeasure& measure;
 };
 
 #endif // _SIMULATION_H

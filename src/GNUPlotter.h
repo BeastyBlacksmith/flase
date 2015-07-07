@@ -14,7 +14,7 @@ class GNUPlotter : public HarryPlotter
 public:
 
     GNUPlotter(
-            Measure& measure,
+            VoidMeasure& measure,
             size_t skip = 1,
             real vecsize = 1.,
             std::string sheepdat = "temp/sheeppl.dat",
@@ -26,7 +26,7 @@ public:
 
 protected:
 
-    Measure& measure;
+    VoidMeasure& measure;
     size_t skip;
     size_t counter;
     real vecsize;
