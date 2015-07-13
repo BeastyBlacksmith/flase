@@ -85,7 +85,7 @@ void GNUPlotter::plot( World& world, real time )
         outGnuPlot << "set palette maxcolors 3\n";
         outGnuPlot << "pl \"" << oscillator << "\" i " << ( counter/skip ) << " u 1:2:($3*" << vecsize << "):($4*" << vecsize << "):5 w vectors palette,";
         outGnuPlot << "\"" << sheepdat << "\" i " <<  ( counter/skip ) << " u ($1*" << scale <<"):($2*" << scale  <<"):(" << ( scale/2 ) <<") w circles lc 3, ";
-        outGnuPlot << "\"" << measure.file << "\" i " << ( counter/skip ) << " u 1:2:(" << world.sheep.getClusterRadius() <<") with circles lc 4\n";
+        outGnuPlot << "\"" << measure.getFile() << "\" i " << ( counter/skip ) << " u 1:2:(" << world.sheep.getClusterRadius() <<") with circles lc 4\n";
         outGnuPlot << "pause 0.04" << "\n" << "\n";
     }
 

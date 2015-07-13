@@ -36,7 +36,7 @@ double simtime = 0.;                                    //elapsed time
 int Ns=100, Nd=50, L=200,Nsb=1;				//Number of sheep,dog, box size
 int t_end=1000,t_out=20;
 int pr=0, mov=0, sc=0, fbreak=0, sim=0;                 //class switches
-string mout="temp/measure.txt";                              //measure output file
+string mout="temp/measurements.txt";                              //measure output file
 
 void parse_params(int argc, char **argv)
 {
@@ -253,7 +253,7 @@ int main( int argc, char* argv[] )
     parse_params(argc, argv);
     //get things right
     {
-        mu = Dphi / ( v0*v0 );          // ensures that most probable velocities match (2D)
+        mu = ( v0*v0 ) / Dphi;          // ensures that most probable velocities match (2D)
     }
     //check initial conditions
     if( Ns/Nsb > L * L / (delta_l * delta_l) )
@@ -270,7 +270,7 @@ int main( int argc, char* argv[] )
         motion = new ConstVelocity ( Dphi, rng, v0 );
         break;
     case 1:
-    	motion = new BrownianMotion ( Dphi, rng, mu );
+    	motion = new BrownianMotion ( v0 * v0 * v0 * v0 / (2 * Dphi), rng, mu );                //D_bm should match D_eff
 	break;
 
     default:

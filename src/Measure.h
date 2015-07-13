@@ -20,9 +20,15 @@ public:
     void measure( const World& world, const real time );
     void operator()( const World& world, const real time ) { return measure( world, time ); }
 
-    const std::string file;
+    void init();
+    real getMQD() { return mqdValue; }
+    real getMSD() { return msdValue; }
+
+    std::string getFile() { return file; }
 
 private:
+    const std::string file;
+
     real mqdNorm = 1.;
     real msdNorm = 1.;
     real mqdValue = 0.;
