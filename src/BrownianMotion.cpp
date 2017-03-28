@@ -10,7 +10,7 @@ BrownianMotion::BrownianMotion( real noise, gsl_rng* const rng, real friction ) 
         Motion( noise, rng ),
         friction( friction )
 {
-    persistenceLength = 0;
+    persistenceLength = sqrt( noise / friction );
     persistenceTime = 1./friction;
     effectiveDiffusion = noise;
 }

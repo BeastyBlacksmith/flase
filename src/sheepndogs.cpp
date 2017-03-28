@@ -40,6 +40,8 @@ string mout="temp/measurements.txt";                              //measure outp
 
 void parse_params(int argc, char **argv)
 {
+    if( argc > 1 )
+    {
         if( strcmp( argv[1], "--help") == 0 )
         {
                 printf("Parameters to set:\n");
@@ -69,6 +71,7 @@ void parse_params(int argc, char **argv)
                 printf("                void: no output                                                 \n");
                 exit(0);
         }
+    }
 	int jpar;
 	if((argc % 2) == 0)
 	{
@@ -253,7 +256,7 @@ int main( int argc, char* argv[] )
     parse_params(argc, argv);
     //get things right
     {
-        mu = ( v0*v0 ) / Dphi;          // ensures that most probable velocities match (2D)
+        mu = Dphi / ( v0 * v0 ) ;          // ensures that persistence times match
     }
     //check initial conditions
     if( Ns/Nsb > L * L / (delta_l * delta_l) )
