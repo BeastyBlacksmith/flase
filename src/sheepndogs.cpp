@@ -10,9 +10,9 @@
 
 #include "Clock.h"
 
-#include "ClusterTimeSimulation.h"
-#include "FiniteSimulation.h"
-#include "InfiniteSimulation.h"
+#include "Simulation/ClusterTimeSimulation.h"
+#include "Simulation/FiniteSimulation.h"
+#include "Simulation/InfiniteSimulation.h"
 
 #include "BrownianMotion.h"
 #include "ConstVelocity.h"
