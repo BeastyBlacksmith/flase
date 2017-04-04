@@ -4,6 +4,16 @@
 
 #include "Measure.h"
 
+Measure::Measure(size_t skip, std::string filename) :
+        file( filename ),
+        mqdValue( 1 ),
+        msdValue( 0 ),
+        skip( skip ),
+        skipcounter( 0 ),
+        out( filename )
+{
+}
+
 real Measure::meanQuadraticDistance( const Sheep& sheep )
 {
     //TODO: real space distance?_?

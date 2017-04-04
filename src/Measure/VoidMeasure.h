@@ -20,11 +20,11 @@ public:
 
     virtual void measure( const World& world, const real time ) override;
 
-    virtual void init();
-    virtual real getMQD() { return mqdValue; }
-    virtual real getMSD() { return msdValue; }
+    virtual void init() override;
+    virtual real getMQD() override { return mqdValue; }
+    virtual real getMSD() override { return msdValue; }
 
-    virtual std::string getFile() { return file; }
+    virtual std::string getFile() override { return file; }
 };
 
 #endif // _VOIDMEASURE_H

@@ -5,12 +5,8 @@
 
 #include "VoidMeasure.h"
 
-VoidMeasure::VoidMeasure( size_t skip ) : 
-    file( "noFile" ),
-    mqdValue( 1 ),
-    msdValue( 0 ),
-    skip( skip ),
-    skipcounter( 0 )
+VoidMeasure::VoidMeasure( size_t skip ) :
+    Measure( skip, "no File")
 {
 }
 

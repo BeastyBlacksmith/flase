@@ -5,13 +5,7 @@
 using namespace std;
 
 DoMeasure::DoMeasure( size_t skip, string filename ) :
-    Measure( ),
-    file( filename ),
-    mqdValue( 1 ),
-    msdValue( 0 ),
-    skip( skip ),
-    skipcounter( 0 ),
-    out( filename )
+    Measure( skip, filename )
 {
 }
 

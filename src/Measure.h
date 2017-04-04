@@ -12,6 +12,7 @@ class Measure
 {
 public:
 
+    Measure(size_t skip, std::string filename);
     virtual ~Measure() {}
     virtual void measure( const World& world, const real time) = 0;
     void operator()( const World& world, const real time ) { return measure( world, time ); }
