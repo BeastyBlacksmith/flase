@@ -235,7 +235,7 @@ void paste_params(Motion& motion)
 	fclose(fp);
 }
 
-int main( int argc, char* argv[] )
+int main( int argc, char** argv )
 {
     // init random number generator
     
