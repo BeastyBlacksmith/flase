@@ -11,7 +11,7 @@ set( sheepndogs_includes "src/" "src/common" "src/wnd" "src/kdtree++" )
 include_directories( ${sheepndogs_includes} "~/glew/include" "~/glut/include" )
 file( MAKE_DIRECTORY "build/temp" )
 file( GLOB_RECURSE sheepndogs_src "src/*.cpp" "src/common/*.cpp" "src/wnd/*.cpp" )
-add_executable( sheepndogs ${sheepndogs_src} )
+add_executable( sheepndogs ${sheepndogs_src} src/Measure.h src/Measure/Measure.cpp)
 target_link_libraries( sheepndogs m gsl gslcblas GL GLEW GLU glut )
 
 

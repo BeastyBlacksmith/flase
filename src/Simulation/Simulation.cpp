@@ -4,7 +4,7 @@
 
 #include "Simulation.h"
 
-Simulation::Simulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, VoidMeasure& measure ) :
+Simulation::Simulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure ) :
     plotter( plotter ),
     rng( rng ),
     time( 0 ),

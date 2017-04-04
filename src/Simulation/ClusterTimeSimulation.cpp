@@ -5,7 +5,7 @@
 
 using namespace std;
 
-ClusterTimeSimulation::ClusterTimeSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, VoidMeasure& measure, real dt, real msdThreshold, real mqdThreshold, int condition ) :
+ClusterTimeSimulation::ClusterTimeSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure, real dt, real msdThreshold, real mqdThreshold, int condition ) :
     Simulation( plotter, meanSheepDiffusionTime, rng, measure ),
     measure( measure ),
     dt( dt ),

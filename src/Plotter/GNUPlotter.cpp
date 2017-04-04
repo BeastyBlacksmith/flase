@@ -2,14 +2,14 @@
 
 #include "common.h"
 #include "World.h"
-#include "VoidMeasure.h"
+#include "Measure/VoidMeasure.h"
 
 #include "GNUPlotter.h"
 
 using namespace std;
 
 GNUPlotter::GNUPlotter(
-            VoidMeasure& measure,
+            Measure& measure,
             size_t skip,
             real vecsize,
             string sheepdat,

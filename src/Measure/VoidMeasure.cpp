@@ -1,33 +1,32 @@
+#include <math.h>
 
-#include "common.h"
-#include "Measure.h"
+#include "World.h"
+#include "Sheep.h"
 
-using namespace std;
+#include "VoidMeasure.h"
 
-Measure::Measure( size_t skip, string filename ) : 
-    VoidMeasure( skip ),
-    file( filename ),
+VoidMeasure::VoidMeasure( size_t skip ) : 
+    file( "noFile" ),
     mqdValue( 1 ),
     msdValue( 0 ),
     skip( skip ),
-    skipcounter( 0 ),
-    out( filename )
+    skipcounter( 0 )
 {
 }
 
-Measure::~Measure()
+VoidMeasure::~VoidMeasure()
 {
-    out.flush();
 }
 
-void Measure::init( )
+
+void VoidMeasure::init( )
 {
     World& world = World::instance();
 
     mqdNorm = meanQuadraticDistance( world.sheep );
 }
 
-void Measure::measure( const World& world, real time )
+void VoidMeasure::measure( const World& world, real time )
 {
     if( skipcounter % skip == 0 )
     {
@@ -44,19 +43,8 @@ void Measure::measure( const World& world, real time )
         msdValue = ( msdNorm / meanSquareDisplacement( world.sheep ) ); 
         mqdValue = ( meanQuadraticDistance( world.sheep ) / mqdNorm );
 
-        {
-            out << x << "\t" << y << "\t";
-
-            out << mqdValue << "\t";
-            out << msdValue << "\t";
-            out << time;
-            out << "\n\n\n";
-        }
-        
-        //output: cmx cmy MQD MSD time (triple newline for gnuplot compability)
     }
 
     ++skipcounter;
 }
-
 

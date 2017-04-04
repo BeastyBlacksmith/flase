@@ -1,32 +1,32 @@
+//
+// Created by loki on 04.04.17.
+//
 
-#ifndef _MEASURE_H
-#define _MEASURE_H
+#ifndef SHEEPNDOGS_MEASURE_H
+#define SHEEPNDOGS_MEASURE_H
 
-#include <string>
-#include <iostream>
 #include <fstream>
-
-#include "common.h"
 #include "World.h"
-#include "VoidMeasure.h"
 
-class Measure : public VoidMeasure
+class Measure
 {
 public:
-    
-    Measure( size_t skip, std::string filename );
-    ~Measure();
 
-    void measure( const World& world, const real time );
+    virtual ~Measure() {}
+    virtual void measure( const World& world, const real time) = 0;
     void operator()( const World& world, const real time ) { return measure( world, time ); }
 
-    void init();
-    real getMQD() { return mqdValue; }
-    real getMSD() { return msdValue; }
+    virtual void init() = 0;
+    virtual real getMQD() = 0;
+    virtual real getMSD() = 0;
 
-    std::string getFile() { return file; }
+    virtual std::string getFile() = 0;
 
-private:
+protected:
+
+    static real meanQuadraticDistance( const Sheep& sheep );
+    static real meanSquareDisplacement( const Sheep& sheep );
+
     const std::string file;
 
     real mqdNorm = 1.;
@@ -38,5 +38,4 @@ private:
     size_t skipcounter;
     std::ofstream out;
 };
-
-#endif // _MEASURE_H
+#endif //SHEEPNDOGS_MEASURE_H

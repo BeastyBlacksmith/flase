@@ -6,19 +6,19 @@
 #include "common.h"
 
 #include "Simulation.h"
-#include "VoidMeasure.h"
+#include "Measure.h"
 
 class ClusterTimeSimulation : public Simulation
 {
 public:
 
-    ClusterTimeSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, VoidMeasure& measure, real dt, const real msdThreshold = 0.7, const real mqdThreshold = 0.1, const int condition = 0 );
+    ClusterTimeSimulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure, real dt, const real msdThreshold = 0.7, const real mqdThreshold = 0.1, const int condition = 0 );
 
     real run( );
 
 protected:
 
-    VoidMeasure& measure;
+    Measure& measure;
     const real dt;
     const real msdThreshold;
     const real mqdThreshold;

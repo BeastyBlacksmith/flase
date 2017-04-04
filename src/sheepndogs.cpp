@@ -14,18 +14,18 @@
 #include "Simulation/FiniteSimulation.h"
 #include "Simulation/InfiniteSimulation.h"
 
-#include "BrownianMotion.h"
-#include "ConstVelocity.h"
+#include "Motion/BrownianMotion.h"
+#include "Motion/ConstVelocity.h"
 #include "Dogs.h"
-#include "SheepField.h"
-#include "SheepTree.h"
+#include "Sheep/SheepField.h"
+#include "Sheep/SheepTree.h"
 #include "World.h"
 
-#include "VoidPlotter.h"
-#include "GNUPlotter.h"
-#include "GLPlotter.h"
+#include "Plotter/VoidPlotter.h"
+#include "Plotter/GNUPlotter.h"
+#include "Plotter/GLPlotter.h"
 
-#include "Measure.h"
+#include "Measure/DoMeasure.h"
 
 using namespace std;
 
@@ -298,7 +298,7 @@ int main( int argc, char* argv[] )
     World::createInstance( L, rng, t3, r1, r2, *sheep, dogs );
     HarryPlotter* plotter = NULL;
 
-    VoidMeasure* measure = NULL;
+    Measure* measure = NULL;
     if( mout == "void" )
     {
         measure = new VoidMeasure( t_out/delta_t );
@@ -306,7 +306,7 @@ int main( int argc, char* argv[] )
     }
     else
     {
-        measure = new Measure( t_out/delta_t, mout );
+        measure = new DoMeasure( t_out/delta_t, mout );
     }
 
     switch(pr)

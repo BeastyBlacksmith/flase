@@ -11,7 +11,7 @@
 #include "Motion.h"
 #include "Sheep.h"
 
-#include "Doggy.h"
+#include "Dogs/Doggy.h"
 
 class Dogs
 {
