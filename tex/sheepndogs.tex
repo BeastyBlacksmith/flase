@@ -1,14 +1,24 @@
 \section{Three-state collector-item model with diffusive items} \label{sec:sheepndog}
 
-This section will consider three-state collectors $D$ which can move around in space freely and interact with passive items $S$ depending on the state of the collector. It has been investigated with directionless three-state ratchets and Brownian motion only in \cite{SeefeldSchim00}. They showed that pattern formation is most pronounced at maximal flow in one direction. Therefore in this work a unidirectional three-state model is used and active motion of the collectors is used as well.
+This section will consider three-state collectors $D$ which can move around in space freely and interact with passive items $S$ depending on the state of the collector.
+It has been investigated with directionless three-state ratchets and Brownian motion only in \cite{SeefeldSchim00}.
+They showed that pattern formation is most pronounced at maximal flow in one direction.
+Therefore in this work a unidirectional three-state model is used and active motion of the collectors is used as well.
 
-The three states of the collectors have the following properties. In state one, the active state, they will react with $S$ and form a dimer with rate $\gamma_1$ and change to state two. When an collector in state two comes into interaction range of an element of $S$ the backward reaction takes place with rate $\gamma_2$, and the collector will move away from the item it was bound to, changing its state to state three. State three is the refractory period where it ignores every encounter with an item for a time that is characterized by a certain waiting time distribution $w_3(t)$.
+The three states of the collectors have the following properties.
+In state one, the active state, they will react with $S$ and form a dimer with rate $\gamma_1$ and change to state two.
+When an collector in state two comes into interaction range of an element of $S$ the backward reaction takes place with rate $\gamma_2$, and the collector will move away from the item it was bound to, changing its state to state three.
+State three is the refractory period where it ignores every encounter with an item for a time that is characterized by a certain waiting time distribution $w_3(t)$.
 
 \begin{figure}[H]
 \centering
   \includegraphics[width=.5\textwidth]{./Bilder/3statediagramm.pdf}
-\caption{Scheme of the dynamics of the inner state of the collectors. A collector in state $D_1$
-changes to state $D_2$ with rate $\gamma_1$ if it encounters an item $S$ and picks it up . At the next encounter of an item it releases the item with rate $\gamma_2$ and enters state $D_3$. Without any external influences it changes back to state $D_1$ with rate $\gamma_3$.}
+\caption{
+    Scheme of the dynamics of the inner state of the collectors.
+    A collector in state $D_1$ changes to state $D_2$ with rate $\gamma_1$ if it encounters an item $S$ and picks it up.
+    At the next encounter of an item it releases the item with rate $\gamma_2$ and enters state $D_3$.
+    Without any external influences it changes back to state $D_1$ with rate $\gamma_3$.
+}
 \end{figure}
 
 In terms of a chemical reaction diagram the system reads as follows
@@ -20,15 +30,17 @@ In terms of a chemical reaction diagram the system reads as follows
 
 where $D_i$ is a collector in state $i$ and $\gamma_3$ is the reciprocal mean waiting time for a Markovian waiting time distribution, i.e. $w_3(t)=\gamma_3\,e^{-\gamma_3 t}$.
 
-The existence of the refractory state three is crucial for cluster formation. Otherwise a collector encountering a small cluster of items will pick up one individual and drop it at the same cluster just at another position.
+The existence of the refractory state three is crucial for cluster formation.
+Otherwise a collector encountering a small cluster of items will pick up one individual and drop it at the same cluster just at another position.
 
 \subsection{Simulation setup}\label{sec:simset}
 
-In this subsection the setup for the particle simulation and its parameters, like the equations of motion,  will be explained. More information about the architecture of the used program is shown in appendix \ref{app:B}.
+In this subsection the setup for the particle simulation and its parameters, like the equations of motion,  will be explained.
 
 \subsubsection{General Environment}
 
-The simulation takes place in a quadratic space with side length $L$ and periodic boundary conditions. Within this space $N_D$ collectors and $N_S$ items will be randomly distributed.
+The simulation takes place in a quadratic space with side length $L$ and periodic boundary conditions.
+Within this space $N_D$ collectors and $N_S$ items will be randomly distributed.
 
 \subsubsection{Collector motion}
 
@@ -61,7 +73,8 @@ In the case of active motion over damped dynamics \cite{Milster} are used govern
 \label{eq:DGLactm_simset}
 \end{align}
 %
-with the velocity $v_0$, angular diffusion coefficient $D_\phi$ and Gaussian white noise source $\xi_i^\phi$. On time scales larger than the persistence time $t_p^{\text{a.m.}}$
+with the velocity $v_0$, angular diffusion coefficient $D_\phi$ and Gaussian white noise source $\xi_i^\phi$.
+On time scales larger than the persistence time $t_p^{\text{a.m.}}$
 %
 \begin{equation}
  t_{p}^{\text{a.m.}}=\frac{v_0^2}{D_\phi} 
@@ -84,7 +97,8 @@ the system behaves diffusive with the effective diffusion coefficient $D_{\text{
 
 \subsubsection{Item dynamics}
 
-The items on the other hand live on a quadratic lattice with lattice constant $L_\text{grid}$, the total number of cells is thus $N_\text{cells}=\left(\frac{L}{L_\text{grid}}\right)^2$. Each cell of the lattice can contain $N_\text{grid}$ items and they are able to do a simple random walk with exponential waiting time with mean waiting time $\tau_S$ on this lattice.
+The items on the other hand live on a quadratic lattice with lattice constant $L_\text{grid}$, the total number of cells is thus $N_\text{cells}=\left(\frac{L}{L_\text{grid}}\right)^2$.
+Each cell of the lattice can contain $N_\text{grid}$ items and they are able to do a simple random walk with exponential waiting time with mean waiting time $\tau_S$ on this lattice.
 
 For a simple random walk the diffusion constant of the items $D_S$ can be linked to their mean waiting time via \cite{SokolovKlafter}
 %
@@ -106,7 +120,9 @@ The master equations of this system read
 \label{eq:4dseq} \dot{S} &= \gamma_2 S D_2-\gamma_1 S D_1 + D_S\Delta S.
 \end{align}
 %
-Due to constant concentrations $c_S$ and $c_D$ this system can be reduced to a system containing only two equations, because $c_S=S+D_2$, $c_D=D_1+D_2+D_3$ and $c_S+c_D=1$. Therefore $D_2$ and $D_3$ will be eliminated and the remaining $D_1$ will be denoted by $D$. This results in a usual two dimensional reaction-diffusion system
+Due to constant concentrations $c_S$ and $c_D$ this system can be reduced to a system containing only two equations, because $c_S=S+D_2$, $c_D=D_1+D_2+D_3$ and $c_S+c_D=1$.
+Therefore $D_2$ and $D_3$ will be eliminated and the remaining $D_1$ will be denoted by $D$.
+This results in a usual two dimensional reaction-diffusion system
 %
 \begin{align}
 \nonumber \dot{D} &= \gamma_3\left(1-2c_S-D+S\right)-\gamma_1 S D + D_{\text{eff}} \Delta D,\\
@@ -173,7 +189,9 @@ The characteristic equation is obtained from
 \end{align}
 %
 
-The emergence of spatial patterns can be investigated by considering the stable steady state of the reaction system without diffusion. Afterward the conditions under which it looses stability by adding diffusion will be deduced. The emerging pattern is called Turing pattern.
+The emergence of spatial patterns can be investigated by considering the stable steady state of the reaction system without diffusion.
+Afterward the conditions under which it looses stability by adding diffusion will be deduced.
+The emerging pattern is called Turing pattern.
 
 \subsubsection{Turing pattern analysis}
 
@@ -269,7 +287,8 @@ Therefore the trace condition is always fulfilled.
 \end{align}
 %
 Hence $S^*_+$ is a stable steady state and $S^*_-$ is an unstable steady state.
-In addition, it can be seen, that a sufficient condition for stability is $c_S\leq 2 S^*$ and to definitely exclude the state $S^*=0$ one has to ensure that $c_S > \frac{1}{2}$. Otherwise at some instance of time all items are bound to a collector and the process ends at $S^*=0$. 
+In addition, it can be seen, that a sufficient condition for stability is $c_S\leq 2 S^*$ and to definitely exclude the state $S^*=0$ one has to ensure that $c_S > \frac{1}{2}$.
+Otherwise at some instance of time all items are bound to a collector and the process ends at $S^*=0$.
 
 \paragraph{Bifurcations:}
 
@@ -323,7 +342,8 @@ Therefore $S^*$ will be replaced by $S^*(\mathbf r)$. In order to investigate th
  \label{eq:DGL_inhom}
 \end{align}
  %
-since $D$ is assumed to stay spatially homogenous (which requires sufficiently fast collectors), it only depends on the value of $S^*$ where $S^*=\frac{1}{A}\int S^*(r) \mathrm d\mathbf r=\frac{2\pi}{A}\int_0^\infty S^*(r)\,r\,\mathrm dr$, with the integration volume $A$. It is assumed to be the same as \eqref{eq:Sss}, which is essentially a zero order approximation from an expansion around $\frac{1}{r}=0$.
+since $D$ is assumed to stay spatially homogenous (which requires sufficiently fast collectors), it only depends on the value of $S^*$ where $S^*=\frac{1}{A}\int S^*(r) \mathrm d\mathbf r=\frac{2\pi}{A}\int_0^\infty S^*(r)\,r\,\mathrm dr$, with the integration volume $A$.
+It is assumed to be the same as \eqref{eq:Sss}, which is essentially a zero order approximation from an expansion around $\frac{1}{r}=0$.
 Demanding a maximum at the center of the cluster and reaching zero at the end of the cluster radius $R_\text{cl}$ specifies the boundary conditions 
 %
 \begin{align}
@@ -356,7 +376,13 @@ with the parameters introduced in sec. \ref{sec:simset}. Fig. \ref{fig:Rcl} show
 \begin{figure}[H]
 \centering
   \includegraphics[width=.9\textwidth]{./Bilder/clusterRadius_new.pdf}
-\caption{Clustered state with estimated cluster radius shown, calculated from \eqref{eq:Rcl} and drawn in pink. Blue circles are items, arrows are collectors and their color represent their state. Parameters are $L=250$, $L_\text{grid}=2.5$, $N_\text{grid}=1$, $N_D=100$, $N_S=200$, $v_0=5$, $D_\phi=4$, $\gamma_1=\gamma_2=20$, $\gamma_3=\frac{1}{10}$ and $\tau_S=1000$. The large value of $\tau_S$ practically immobilizes the items thus \eqref{eq:Rcl} is in good agreement since the broadening due to diffusion can be neglected. The numbers beside the Cluster statement in the title are the values of MSD and MQD explained in the next section.}
+\caption{
+    Clustered state with estimated cluster radius shown, calculated from \eqref{eq:Rcl} and drawn in pink.
+    Blue circles are items, arrows are collectors and their color represent their state.
+    Parameters are $L=250$, $L_\text{grid}=2.5$, $N_\text{grid}=1$, $N_D=100$, $N_S=200$, $v_0=5$, $D_\phi=4$, $\gamma_1=\gamma_2=20$, $\gamma_3=\frac{1}{10}$ and $\tau_S=1000$.
+    The large value of $\tau_S$ practically immobilizes the items thus \eqref{eq:Rcl} is in good agreement since the broadening due to diffusion can be neglected.
+    The numbers beside the Cluster statement in the title are the values of MSD and MQD explained in the next section.
+}
 \label{fig:Rcl}
 \end{figure}
 
@@ -416,12 +442,18 @@ so $\text{MSD}=1$ corresponds to a perfect cluster and $\text{MSD}=0$ to a disor
 \begin{figure}[H]
 \centering
   \includegraphics[width=.9\textwidth]{./Bilder/MSDMSQplot_new.pdf}
-\caption{Mean quadratic distance (MQD) and mean squared displacement (MSD) measure showing a transition from homogenous to clustered state for active collectors. It is visible that the MQD is more sensitive to small changes in the clustering indicating steps when few clusters arise whereas the MSD shows a sharp transition when the last big cluster is formed and is more sensitive to the fluctuations of this cluster after its formation, while the MQD remains constant in this regime. Parameters are the same as in fig. \ref{fig:Rcl}. The line shows the threshold for considering the state as clustered used in figs. \ref{fig:Tcl_v}-\ref{fig:Tcl_Dphi}.}
+\caption{
+    Mean quadratic distance (MQD) and mean squared displacement (MSD) measure showing a transition from homogenous to clustered state for active collectors.
+    It is visible that the MQD is more sensitive to small changes in the clustering indicating steps when few clusters arise whereas the MSD shows a sharp transition when the last big cluster is formed and is more sensitive to the fluctuations of this cluster after its formation, while the MQD remains constant in this regime.
+    Parameters are the same as in fig. \ref{fig:Rcl}.
+    The line shows the threshold for considering the state as clustered used in figs. \ref{fig:Tcl_v}-\ref{fig:Tcl_Dphi}.
+}
 \label{fig:MQDMSD}
 \end{figure}
 %
 
-Fig. \ref{fig:MQDMSD} shows the behavior of the different measures during a clustering transition. The efficiency of the different types of motion in forming clusters is inspected by simulations, whose parameters are chosen such that the effective diffusion constants are equal 
+Fig. \ref{fig:MQDMSD} shows the behavior of the different measures during a clustering transition.
+The efficiency of the different types of motion in forming clusters is inspected by simulations, whose parameters are chosen such that the effective diffusion constants are equal
 %
 \begin{equation}
 D_\text{b.m.} = D_\text{a.m.} = \frac{v_0^4}{D_\phi}	
@@ -434,20 +466,33 @@ and that the persistence time of the Brownian motion equals the persistence leng
 \label{eq:muD_SD}
 \end{equation}
 %
-Figs \ref{fig:Tcl_v}-\ref{fig:Tcl_Dphi} show the results of this simulations. They were ran until the MSD reached the threshold of 0.7 which also allows for clusters that are not perfectly circular. It is visible that the Brownian motion is more efficient and consistent, i.e. it has smaller deviations, in reaching the clustered state under this conditions. This might be because the Brownian motion is more dense in space and since the concentration of particles is high, items are collected by some particle quickly, whereas the active particles due to their persistence length may cover the space not as efficiently. But further research have to be done to definitely explain this behavior and whether regions exist where this is the other way round.
+Figs \ref{fig:Tcl_v}-\ref{fig:Tcl_Dphi} show the results of this simulations.
+They were ran until the MSD reached the threshold of 0.7 which also allows for clusters that are not perfectly circular.
+It is visible that the Brownian motion is more efficient and consistent, i.e. it has smaller deviations, in reaching the clustered state under this conditions.
+This might be because the Brownian motion is more dense in space and since the concentration of particles is high, items are collected by some particle quickly, whereas the active particles due to their persistence length may cover the space not as efficiently.
+But further research have to be done to definitely explain this behavior and whether regions exist where this is the other way round.
 
 %
 \begin{figure}[H]
 \centering
   \includegraphics[width=.9\textwidth]{./Bilder/cltimes_new.pdf}
-\caption{Mean clustering time $T_\text{cl}$ for $10$ runs per point and its standard deviation for different velocities $v_0$ in the range $4.5-5.5$ for Brownian motion and constant velocities. Brownian motion is more efficient on average in this regime, roughly by a factor of $3$. Also the deviations are less. Parameters are $L=250$, $\tau_S=1000$, $\gamma_1=\gamma_2=10$, $\gamma_3=\frac{1}{10}$, $N_D=100$, $N_S=200$, $N_\text{grid}=1$, $L_\text{grid}=1$ and $D_\phi=4$.}
+\caption{
+    Mean clustering time $T_\text{cl}$ for $10$ runs per point and its standard deviation for different velocities $v_0$ in the range $4.5-5.5$ for Brownian motion and constant velocities.
+    Brownian motion is more efficient on average in this regime, roughly by a factor of $3$.
+    Also the deviations are less.
+    Parameters are $L=250$, $\tau_S=1000$, $\gamma_1=\gamma_2=10$, $\gamma_3=\frac{1}{10}$, $N_D=100$, $N_S=200$, $N_\text{grid}=1$, $L_\text{grid}=1$ and $D_\phi=4$.
+}
 \label{fig:Tcl_v}
 \end{figure}
 %
 \begin{figure}[H]
 \centering
   \includegraphics[width=.9\textwidth]{./Bilder/cltimes_Dphi--0-1--5-1--0-1.pdf}
-\caption{Mean clustering time $T_\text{cl}$ for $10$ runs per point and its standard deviation for varying noise intensity $D_\phi$ for Brownian motion and constant velocities. It shows, that Brownian motion is even more efficient the smaller $D_\phi$ becomes, that means that the more ballistic the motion of the active particle is, the larger is the discrepancy. Parameters are $L=250$, $\tau_S=1000$, $\gamma_1=\gamma_2=10$, $\gamma_3=\frac{1}{10}$, $N_D=100$, $N_S=200$, $N_\text{grid}=1$, $L_\text{grid}=1$ and $v_0=5$.}
+\caption{
+    Mean clustering time $T_\text{cl}$ for $10$ runs per point and its standard deviation for varying noise intensity $D_\phi$ for Brownian motion and constant velocities.
+    It shows, that Brownian motion is even more efficient the smaller $D_\phi$ becomes, that means that the more ballistic the motion of the active particle is, the larger is the discrepancy.
+    Parameters are $L=250$, $\tau_S=1000$, $\gamma_1=\gamma_2=10$, $\gamma_3=\frac{1}{10}$, $N_D=100$, $N_S=200$, $N_\text{grid}=1$, $L_\text{grid}=1$ and $v_0=5$.
+}
 \label{fig:Tcl_Dphi}
 \end{figure}
 
