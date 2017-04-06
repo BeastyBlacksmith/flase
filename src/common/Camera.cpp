@@ -1,7 +1,7 @@
 
-#include <GL/gl.h>
 #include <math.h>
 
+#include "gl_includes.h"
 #include "Vec.h"
 #include "Camera.h"
 
