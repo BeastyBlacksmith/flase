@@ -17,8 +17,8 @@ public:
             Measure& measure,
             size_t skip = 1,
             real vecsize = 1.,
-            std::string sheepdat = "temp/sheeppl.dat",
-            std::string oscillator = "temp/oscillator.dat",
+            std::string sheepdat = "temp/sheepPosition.dat",
+            std::string dogsdat = "temp/dogsPosition.dat",
             std::string gnuplotscript = "havefun.gp" );
     ~GNUPlotter();
 
@@ -31,7 +31,7 @@ protected:
     size_t counter;
     real vecsize;
     std::string sheepdat;
-    std::string oscillator; 
+    std::string dogsdat;
 
     std::ofstream outMaeh;
     std::ofstream outWuff;

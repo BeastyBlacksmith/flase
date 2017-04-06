@@ -9,21 +9,21 @@
 using namespace std;
 
 GNUPlotter::GNUPlotter(
-            Measure& measure,
-            size_t skip,
-            real vecsize,
-            string sheepdat,
-            string oscillator,
-            string gnuplotscript ) :
-    measure( measure ),
-    skip( skip ),
-    counter( 0 ),
-    vecsize( vecsize ),
-    sheepdat( sheepdat ),
-    oscillator( oscillator ),
-    outMaeh( sheepdat ),
-    outWuff( oscillator ),
-    outGnuPlot( gnuplotscript )
+        Measure& measure,
+        size_t skip,
+        real vecsize,
+        string sheepdat,
+        string dogsdat,
+        string gnuplotscript ) :
+        measure( measure ),
+        skip( skip ),
+        counter( 0 ),
+        vecsize( vecsize ),
+        sheepdat( sheepdat ),
+        dogsdat( dogsdat ),
+        outMaeh( sheepdat ),
+        outWuff( dogsdat ),
+        outGnuPlot( gnuplotscript )
 {
 }
 
@@ -83,7 +83,8 @@ void GNUPlotter::plot( World& world, real time )
         outGnuPlot << "set title \" time=" << time << ", Cluster=" << measure.getMSD() <<" / " << measure.getMQD() << "\"\n";
         outGnuPlot << "set palette model RGB defined (1 \"red\", 2 \"black\", 3 \"green\")" << "\n";
         outGnuPlot << "set palette maxcolors 3\n";
-        outGnuPlot << "pl \"" << oscillator << "\" i " << ( counter/skip ) << " u 1:2:($3*" << vecsize << "):($4*" << vecsize << "):5 w vectors palette,";
+        outGnuPlot << "pl \"" << dogsdat << "\" i " << ( counter / skip ) << " u 1:2:($3*" << vecsize << "):($4*"
+                   << vecsize << "):5 w vectors palette,";
         outGnuPlot << "\"" << sheepdat << "\" i " <<  ( counter/skip ) << " u ($1*" << scale <<"):($2*" << scale  <<"):(" << ( scale/2 ) <<") w circles lc 3, ";
         outGnuPlot << "\"" << measure.getFile() << "\" i " << ( counter/skip ) << " u 1:2:(" << world.sheep.getClusterRadius() <<") with circles lc 4\n";
         outGnuPlot << "pause 0.04" << "\n" << "\n";
