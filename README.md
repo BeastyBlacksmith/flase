@@ -28,6 +28,10 @@ Extract to {YOUR_PATH}
 
 Run `sheepndogs` executable.
 
+The data will be written to `flase/build/temp` and the gnuplot script to `flase/build/havefun.gp`.
+ 
+Run the script using the terminal via `gnuplot havefun.gp`. (needs wxt support)
+
 Use `sheepndogs --help` for a list of adjustable parameters.
 
 Check the physics document if the meaning of parameters is unclear and for general background information.
