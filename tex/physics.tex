@@ -1,0 +1,60 @@
+\documentclass[twoside,12pt,paper=a4% die Verwendung von DIN-A4-Format ist pflicht!
+	,parskip=half
+]{scrreprt}
+\usepackage{scrhack}
+\usepackage[top=2cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
+
+%notwendige Pakete
+\usepackage[ngerman, english]{babel}    % mehrsprachiger Textsatz
+% babel: letzte Sprache in Optionen zeigt die Sprache des Dokumentes
+% und kann durch den Befehl \selectlanguage{} geaendert werden
+% Passen Sie die Optionen des babel-Paketes nach Bedarf an!
+\usepackage[latin1]{inputenc}       % Eingabekodierung Parameter latin1 darf ge\"andert werden
+\usepackage[T1]{fontenc}                % Schriftenkodierung
+\usepackage{graphicx}                       % zum Einbinden von Grafiken
+\usepackage{lmodern}                        % Ersatz fuer Computer Modern-Schriften
+                                                                % zum besseren Aussehen am Bildschirm
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{listings}
+%\usepackage{verbatimfiles}
+\usepackage{fancyhdr}
+\usepackage{bbold}
+\usepackage{color}
+\usepackage{transparent}
+\usepackage{setspace}
+\usepackage{placeins}
+\usepackage{subcaption}
+\usepackage{textcomp}
+%\usepackage{hyperref} in compatibility
+\usepackage{setspace}
+
+\usepackage[
+	citestyle = numeric-comp,
+	doi=false,
+	sorting = none
+	]{biblatex}
+\usepackage[babel]{csquotes}
+\bibliography{bibliography}
+
+\setlength{\parindent}{1 em}
+\setcounter{secnumdepth}{3}
+
+\include{command}
+
+\begin{document}
+	\tableofcontents
+	\pagestyle{fancy}                  % bzw. ist fancyhdr zu benutzten
+	\fancyhf{}
+	\fancyfoot[RE,LO]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	
+	\fancypagestyle{plain}{
+		\fancyhf{}
+		\fancyfoot[RE,LO]{\thepage}
+		\renewcommand{\headrulewidth}{0pt}}
+	
+	\include{sheepndogs}
+	\printbibliography
+\end{document}

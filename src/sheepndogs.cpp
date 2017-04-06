@@ -29,14 +29,14 @@
 
 using namespace std;
 
-double Dphi=4.,delta_t=0.01,v0=4.,r1=.5,r2=.5,t3=10.;	//noise int.,time step, velocity, rates
-double delta_l=1.,tau_s=10, mu=1.;	          	//interaction radius, cattle size, friction
-double vec=5., cl_trMSD=0.7, cl_trMQD=0.1;		//vec size, clustering threshold
-double simtime = 0.;                                    //elapsed time
-int Ns=100, Nd=50, L=200,Nsb=1;				//Number of sheep,dog, box size
-int t_end=1000,t_out=20;
-int pr=0, mov=0, sc=0, fbreak=0, sim=0;                 //class switches
-string mout="temp/measurements.txt";                              //measure output file
+double Dphi = 4., delta_t = 0.1, v0 = 5., r1 = 20., r2 = 20., t3 = 10.;    //noise int.,time step, velocity, rates
+double delta_l = 2.5, tau_s = 1000, mu = 1.;                               //cattle size, friction
+double vec = 5., cl_trMSD = 0.7, cl_trMQD = 0.1;                           //vec size, clustering threshold
+double simtime = 0.;                                                       //elapsed time
+int Ns = 200, Nd = 100, L = 250, Nsb = 1;                                  //Number of sheep,dog, box size
+int t_end = 100000, t_out = 500;
+int pr = 0, mov = 0, sc = 0, fbreak = 0, sim = 0;                                    //class switches
+string mout = "temp/measurements.txt";                                     //measure output file
 
 void parse_params(int argc, char **argv)
 {

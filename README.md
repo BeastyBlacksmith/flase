@@ -1,30 +1,48 @@
 # Sheep 'n' Dogs
-Agent based simulation of a collector and item model in 2D featuring
-normal Brownian motion and random movement with constant velocity.
+Agent based simulation of a collector and item model with diffusive items in 2D. 
+Features normal Brownian motion and random movement with constant velocity.
 
 It creates a GNUplot script for visualization. Output using open GL is
 in beta stage.
 
-## Installation (Linux only)
+## Installation (Linux / Mac)
 
 Download source code.
 
 Create build directory in Project folder and move into.
 
-run:
+Extract to {YOUR_PATH}
 
-cmake ..
+`cd {YOUR_PATH}/flase`
 
-make
+`mkdir -p build`
+
+`cd build`
+
+`cmake ..`
+
+`make`
 
 
 ## Usage
 
-TODO: Write usage instructions
+Run `sheepndogs` executable.
+
+Use `sheepndogs --help` for a list of adjustable parameters.
+
+Check the physics document if the meaning of parameters is unclear and for general background information.
 
 ## Physics
 
-TODO: Write physics section
+`cd {YOUR_PATH}/flase/tex`
+
+`latex physics`
+
+`biber physics`
+
+`latex physics`
+
+View physics.pdf.
 
 ## Contributing
 

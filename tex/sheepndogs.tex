@@ -1,0 +1,453 @@
+\section{Three-state collector-item model with diffusive items} \label{sec:sheepndog}
+
+This section will consider three-state collectors $D$ which can move around in space freely and interact with passive items $S$ depending on the state of the collector. It has been investigated with directionless three-state ratchets and Brownian motion only in \cite{SeefeldSchim00}. They showed that pattern formation is most pronounced at maximal flow in one direction. Therefore in this work a unidirectional three-state model is used and active motion of the collectors is used as well.
+
+The three states of the collectors have the following properties. In state one, the active state, they will react with $S$ and form a dimer with rate $\gamma_1$ and change to state two. When an collector in state two comes into interaction range of an element of $S$ the backward reaction takes place with rate $\gamma_2$, and the collector will move away from the item it was bound to, changing its state to state three. State three is the refractory period where it ignores every encounter with an item for a time that is characterized by a certain waiting time distribution $w_3(t)$.
+
+\begin{figure}[H]
+\centering
+  \includegraphics[width=.5\textwidth]{./Bilder/3statediagramm.pdf}
+\caption{Scheme of the dynamics of the inner state of the collectors. A collector in state $D_1$
+changes to state $D_2$ with rate $\gamma_1$ if it encounters an item $S$ and picks it up . At the next encounter of an item it releases the item with rate $\gamma_2$ and enters state $D_3$. Without any external influences it changes back to state $D_1$ with rate $\gamma_3$.}
+\end{figure}
+
+In terms of a chemical reaction diagram the system reads as follows
+\begin{align}
+ \nonumber D_1+S &\underset{\gamma_1}{\rightarrow} D_2,\\
+ \nonumber D_2+S &\underset{\gamma_2}{\rightarrow} D_3+2 S,\\
+ \label{eq:3ds_chemeq} D_3 &\underset{\gamma_3}{\rightarrow} D_1,
+\end{align}
+
+where $D_i$ is a collector in state $i$ and $\gamma_3$ is the reciprocal mean waiting time for a Markovian waiting time distribution, i.e. $w_3(t)=\gamma_3\,e^{-\gamma_3 t}$.
+
+The existence of the refractory state three is crucial for cluster formation. Otherwise a collector encountering a small cluster of items will pick up one individual and drop it at the same cluster just at another position.
+
+\subsection{Simulation setup}\label{sec:simset}
+
+In this subsection the setup for the particle simulation and its parameters, like the equations of motion,  will be explained. More information about the architecture of the used program is shown in appendix \ref{app:B}.
+
+\subsubsection{General Environment}
+
+The simulation takes place in a quadratic space with side length $L$ and periodic boundary conditions. Within this space $N_D$ collectors and $N_S$ items will be randomly distributed.
+
+\subsubsection{Collector motion}
+
+The motion of the collectors will be either externally driven Brownian motion with friction or active motion with constant speed and angular noise.
+
+\paragraph{Brownian motion:}
+
+In the case of Brownian motion the motion of the collector $i$ is given by the following equations
+%
+\begin{align}
+ \nonumber \ddot{x}_i &= -\mu\dot x_i+\sqrt{2\mu D_{\text{b.m.}}}\xi_i^x,\\
+ \ddot{y}_i &= -\mu\dot y_i+\sqrt{2\mu D_{\text{b.m.}}}\xi_i^y,
+\label{eq:DGLbrm_simset}
+\end{align}
+ %
+with the friction coefficient $\mu$, diffusion coefficient $D_{\text{b.m.}}$ and Gaussian white noise sources $\xi_i^{x,y}$. This will lead to diffusive motion on timescales much larger than the persistence time $t_p^{\text{b.m.}}$
+%
+\begin{equation}
+	t_p^{\text{b.m.}} = \frac{1}{\mu}.
+\label{eq:perstimeBM_simset}
+\end{equation}
+
+\paragraph{Active motion:}
+
+In the case of active motion over damped dynamics \cite{Milster} are used governed by the equations
+%
+\begin{align}
+ \nonumber \dot{\mathbf r}_i &= v_0\,\mathbf e_{r,i},\\
+ \dot \phi_i &= \frac{\sqrt{2 D_\phi}}{v_0}\xi_i^\phi, 
+\label{eq:DGLactm_simset}
+\end{align}
+%
+with the velocity $v_0$, angular diffusion coefficient $D_\phi$ and Gaussian white noise source $\xi_i^\phi$. On time scales larger than the persistence time $t_p^{\text{a.m.}}$
+%
+\begin{equation}
+ t_{p}^{\text{a.m.}}=\frac{v_0^2}{D_\phi} 
+\label{eq:perstime_simset} 
+\end{equation}
+%
+and spatial scales larger than the persistence length $l_p^{\text{a.m.}}$
+%
+\begin{equation}
+ l_p^{\text{a.m.}}=t_p^{\text{a.m.}}\cdot v_0
+\label{eq:perslength_simset}
+\end{equation}
+%
+the system behaves diffusive with the effective diffusion coefficient $D_{\text{a.m.}}$
+%
+\begin{equation}
+ D_{\text{a.m.}}=\frac{v_0^4}{2 D_\phi}.
+\label{eq:Dam_simset}
+\end{equation}
+
+\subsubsection{Item dynamics}
+
+The items on the other hand live on a quadratic lattice with lattice constant $L_\text{grid}$, the total number of cells is thus $N_\text{cells}=\left(\frac{L}{L_\text{grid}}\right)^2$. Each cell of the lattice can contain $N_\text{grid}$ items and they are able to do a simple random walk with exponential waiting time with mean waiting time $\tau_S$ on this lattice.
+
+For a simple random walk the diffusion constant of the items $D_S$ can be linked to their mean waiting time via \cite{SokolovKlafter}
+%
+\begin{equation}
+	D_S = \frac{L_\text{grid}^2}{4\;\tau_S}.
+\end{equation}
+
+
+\subsection{Calculations and simulation results}
+
+\subsubsection{Markovian system}
+
+The master equations of this system read
+%
+\begin{align}
+\nonumber \dot{D}_1 &= \gamma_3 D_3-\gamma_1 S D_1 + D_{\text{eff}}\Delta D_1,\\
+\nonumber \dot{D}_2 &= \gamma_1 S D_1-\gamma_2 S D_2 + D_{\text{eff}}\Delta D_2,\\
+\nonumber \dot{D}_3 &= \gamma_2 S D_2-\gamma_3 D_3 + D_{\text{eff}}\Delta D_3,\\
+\label{eq:4dseq} \dot{S} &= \gamma_2 S D_2-\gamma_1 S D_1 + D_S\Delta S.
+\end{align}
+%
+Due to constant concentrations $c_S$ and $c_D$ this system can be reduced to a system containing only two equations, because $c_S=S+D_2$, $c_D=D_1+D_2+D_3$ and $c_S+c_D=1$. Therefore $D_2$ and $D_3$ will be eliminated and the remaining $D_1$ will be denoted by $D$. This results in a usual two dimensional reaction-diffusion system
+%
+\begin{align}
+\nonumber \dot{D} &= \gamma_3\left(1-2c_S-D+S\right)-\gamma_1 S D + D_{\text{eff}} \Delta D,\\
+\label{eq:2dseq} \dot{S} &= \gamma_2 S \left(c_S-S\right)-\gamma_1 S D + D_S \Delta S. 
+\end{align}
+%
+The stability of this system is governed by the Jacobian $\mathbf{J}(D,S)$ which has to be evaluated at a stationary point
+%
+\begin{equation}
+	\mathbf{J}(D,S) = \begin{pmatrix}
+	                  	\frac{\partial \dot{D}}{\partial D} & \frac{\partial \dot{D}}{\partial S} \\
+						\frac{\partial \dot{S}}{\partial D} & \frac{\partial \dot{S}}{\partial S} 
+	                  \end{pmatrix}.
+\label{eq:Jacob_sheepndog}
+\end{equation}
+%
+For a two dimensional system the characteristic equation is then given by
+%
+\begin{equation}
+	\lambda^2-\Tr\mathbf{J}+\Det\mathbf{J} = 0.
+\end{equation}
+
+\subsubsection{Non-Markovian system}
+
+Changing the transition from state three to state one from a Markovian rate process to a non-Markovian process with waiting time distribution $w_3(t)$ the set of differential equations reads 
+%
+\begin{align}
+\nonumber \dot{D}_1 &= \int_0^\infty \gamma_2 S(t-t')D_2(t-t')w_3(t')\mathrm dt'-\gamma_1 S D_1 + D_{\text{eff}}\Delta D_1,\\
+\nonumber \dot{D}_2 &= \gamma_1 S D_1-\gamma_2 S D_2 + D_{\text{eff}}\Delta D_2,\\
+\nonumber \dot{D}_3 &= \gamma_2 S D_2-\int_0^\infty \gamma_2 S(t-t')D_2(t-t')w_3(t')\mathrm dt' + D_{\text{eff}}\Delta D_3,\\
+ \dot{S} &= \gamma_2 S D_2-\gamma_1 S D_1 + D_S\Delta S.
+\label{eq:4dseqNM}
+\end{align}
+%
+And the reduced system in two variables is given by
+%
+\begin{align}
+\nonumber \dot{D} &= \int_0^\infty \gamma_2 S(t-t')\left((c_S-S(t-t')\right)w_3(t')\mathrm dt'-\gamma_1 S D + D_{\text{eff}} \Delta D,\\
+\dot{S} &= \gamma_2 S \left(c_S-S\right)-\gamma_1 S D + D_S \Delta S. 
+ \label{eq:2dseqNM}
+\end{align}
+
+\paragraph{Characteristic equation:}
+
+Inserting $D~=~D^*e^{\lambda t}\sin( \overrightarrow{k}\dotprod\overrightarrow{r})$ and $S~=~S^*e^{\lambda t}\sin( \overrightarrow{k}\dotprod\overrightarrow{r})$ into the linearized version of \eqref{eq:2dseqNM} gives the Jacobian for this system
+%
+\begin{equation*}
+ \mathbf{J}_D(D^*,S^*) = 
+ \begin{pmatrix}
+   -\gamma_1 S^*-k^2 D_{\text{eff}} & \gamma_2 c_S-2\gamma_2 S^* w_3(\lambda)-\gamma_1 D^*\\ 
+   -\gamma_1 S^* &  \gamma_2 c_S -2\gamma_2 S^*-\gamma_1 D^*-k^2 D_S
+ \end{pmatrix},
+\end{equation*}
+%
+where $w_3(\lambda)$ is the Laplace transform of $w_3(t)$.
+
+The characteristic equation is obtained from
+%
+\begin{align}
+ \nonumber \Det(\mathbf{J}_D-\lambda\mathbb{1})&=\lambda^2+\lambda\left(k^2(D_{\text{eff}}+D_S)+\gamma_1 (D^*+S^*)+\gamma_2 (2 S^* - c_S)\right)\\
+ \nonumber &+ k^4 D_{\text{eff}} D_S + k^2 \left(\gamma_1 D_{\text{eff}} D^*+\gamma_2 D_S (2 S^*-c_s)\right)+2 \gamma_1\gamma_2 (S^*)^2 (1-w_3(\lambda))\\
+ \nonumber \mbox{using \eqref{eq:DssS}}&= \lambda^2+\lambda\left(k^2(D_{\text{eff}}+D_S)+S^*(\gamma_1+\gamma_2)\right)\\
+  &+k^4 D_{\text{eff}} D_S+k^2 S^*\left(D_S\gamma_1+D_{\text{eff}}\gamma_2\right)+2 \gamma_1\gamma_2 (S^*)^2 (1-w_3(\lambda)).
+\end{align}
+%
+
+The emergence of spatial patterns can be investigated by considering the stable steady state of the reaction system without diffusion. Afterward the conditions under which it looses stability by adding diffusion will be deduced. The emerging pattern is called Turing pattern.
+
+\subsubsection{Turing pattern analysis}
+
+\paragraph{Steady states:}
+
+The steady states of the Markovian system without diffusion will be calculated by setting $\dot{D}=0$ and $\dot{S}=0$ yielding
+%
+\begin{align}
+\label{eq:2ds_Dss} 0 &= \gamma_3\left(1-2c_S-D^*+S^*\right)-\gamma_1 S^* D^*,\\
+\label{eq:2ds_Sss} 0 &= \gamma_2 S^* \left(c_S-S^*\right)-\gamma_1 S^* D^*. 
+\end{align}
+%
+\eqref{eq:2ds_Sss} has the trivial solution 
+%
+\[
+ S^*=0,\quad D^*=1-2c_S=c_D-c_S
+\]
+%
+and the non-trivial solution
+%
+\begin{equation}
+D^*~=~\frac{\gamma_2}{\gamma_1}\left(c_s-S^*\right). 
+\label{eq:DssS} 
+\end{equation}
+%
+With this solution \eqref{eq:2ds_Dss} is a quadratic equation in $S^*$, its formal solutions are
+%
+\begin{align}
+ \nonumber S^*_+ &= \frac{c_S}{2}-\frac{\gamma_3}{2}\left(\frac{1}{\gamma_1}+\frac{1}{\gamma_2}\right)+\frac{\sqrt{c_S^2\,\gamma_1^2\gamma_2^2+c_S\,\gamma_1\gamma_2\gamma_3(6\gamma_1+2\gamma_2)+\gamma_3(\gamma_3(\gamma_1+\gamma_2)^2-4\gamma_1^2\gamma_2)}}{2\gamma_1\gamma_2},\\
+ \nonumber S^*_- &= \frac{c_S}{2}-\frac{\gamma_3}{2}\left(\frac{1}{\gamma_1}+\frac{1}{\gamma_2}\right)-\frac{\sqrt{c_S^2\,\gamma_1^2\gamma_2^2+c_S\,\gamma_1\gamma_2\gamma_3(6\gamma_1+2\gamma_2)+\gamma_3(\gamma_3(\gamma_1+\gamma_2)^2-4\gamma_1^2\gamma_2)}}{2\gamma_1\gamma_2}.\\
+ & \label{eq:Sss}
+\end{align}
+%
+In order to be a physical meaningful solution $S^*_\pm$ has to fulfill the following condition
+%
+\begin{align*}
+ 0 &< S^*_\pm\; \leq\;c_S.
+\end{align*}
+%
+Also it has to be a real quantity therefore
+%
+\begin{align*}
+ 0 &\leq c_S^2\,\gamma_1^2\gamma_2^2+c_S\,\gamma_1\gamma_2\gamma_3(6\gamma_1+2\gamma_2)+\gamma_3(\gamma_3(\gamma_1+\gamma_2)^2-4\gamma_1^2\gamma_2)
+\end{align*}
+%
+must hold too. Combining these restrictions gives the following allowed regions in parameter space:
+
+For $S^*_+$:
+%
+\begin{align*}
+ &\gamma_3 \;<\; \frac{\gamma_1^2\gamma_2}{2\gamma_1^2+3\gamma_1\gamma_2+\gamma_2^2} \quad\wedge\quad c_S\;\geq\;-\frac{3\gamma_3(\gamma_1+\gamma_2)}{\gamma_1\gamma_2}+2\sqrt{\frac{\gamma_3(2\gamma_1\gamma_3+\gamma_1\gamma_2+\gamma_2\gamma_3)}{\gamma_1\gamma_2^2}}\\
+ \mbox{or} & \\
+&\gamma_3\;=\;\frac{\gamma_1^2\gamma_2}{2\gamma_1^2+3\gamma_1\gamma_2+\gamma_2^2} \quad\wedge\quad c_S \;>\; \frac{1}{2}-\frac{\gamma_2}{2(2\gamma_1+\gamma_2)}\\
+ \mbox{or} & \\
+&\gamma_3 \;>\;\frac{\gamma_1^2\gamma_2}{2\gamma_1^2+3\gamma_1\gamma_2+\gamma_2^2} \quad\wedge\quad c_S \;>\; \frac{\gamma_1}{2\gamma_1+\gamma_2}. 
+\end{align*}
+%
+For $S^*_-$:
+%
+\begin{equation*}
+ \gamma_3 \;<\; \frac{\gamma_1^2\gamma_2}{2\gamma_1^2+3\gamma_1\gamma_2+\gamma_2^2}\quad \wedge \quad -\frac{3\gamma_3(\gamma_1+\gamma_2)}{\gamma_1\gamma_2}+2\sqrt{\frac{\gamma_3(2\gamma_1\gamma_3+\gamma_1\gamma_2+\gamma_2\gamma_3)}{\gamma_1\gamma_2^2}}\;\leq\;c_S\;<\;\frac{\gamma_1}{2\gamma_1+\gamma_2}.
+\end{equation*}
+%
+\paragraph{Stability:}
+
+Now the stability of these steady states will be investigated. The Jacobian of \eqref{eq:2dseq} is
+%
+\begin{equation*}
+ \mathbf{J}(D^*,S^*) = 
+ \begin{pmatrix}
+  -\gamma_3-\gamma_1 S^* & \gamma_3-\gamma_1 D^*\\ 
+  -\gamma_1 S^* &  \gamma_2 c_S -2\gamma_2 S^*-\gamma_1 D^*
+ \end{pmatrix}.
+\end{equation*}
+%
+For a stable steady state $\Tr \mathbf{J} < 0$ and $\Det \mathbf{J} > 0$ has to be fulfilled.
+%
+\begin{equation*}
+	\Tr \mathbf{J}(D^*,S^*) = -\gamma_3-\gamma_1(D^*+S^*)+(c_S-2S^*)\gamma_2
+\end{equation*}
+%
+using \eqref{eq:DssS}
+%
+\begin{equation*}
+\Tr \mathbf{J}(S^*) = -S^*(\gamma_1+\gamma_2)-\gamma_3 < 0
+\end{equation*}
+%
+Therefore the trace condition is always fulfilled. 
+%
+\begin{align}
+\nonumber \Det \mathbf{J}(S^*) &= \gamma_1\gamma_2(2 S^*-c_S)S^*+S^*(\gamma_1+\gamma_2)\gamma_3 \overset{!}{>} 0\\
+\Rightarrow \quad S^* &> \frac{c_S}{2}-\frac{\gamma_3}{2}\left(\frac{1}{\gamma_1}+\frac{1}{\gamma_2}\right)
+\end{align}
+%
+Hence $S^*_+$ is a stable steady state and $S^*_-$ is an unstable steady state.
+In addition, it can be seen, that a sufficient condition for stability is $c_S\leq 2 S^*$ and to definitely exclude the state $S^*=0$ one has to ensure that $c_S > \frac{1}{2}$. Otherwise at some instance of time all items are bound to a collector and the process ends at $S^*=0$. 
+
+\paragraph{Bifurcations:}
+
+Since the trace condition can not be violated the only bifurcation that can occur is via $\Det \mathbf{J}=0$, i.e. a saddle-node bifurcation. $\Det \mathbf{J}=0$ leads to $S^* ~=~ \frac{c_S}{2}~-~\frac{\gamma_3}{2}\left(\frac{1}{\gamma_1}+\frac{1}{\gamma_2}\right)$, thus the square root in \eqref{eq:Sss} has to vanish.
+%
+\begin{align}
+ \nonumber 0 &= c_S^2\,\gamma_1^2\gamma_2^2+c_S\,\gamma_1\gamma_2\gamma_3(6\gamma_1+2\gamma_2)+\gamma_3(\gamma_3(\gamma_1+\gamma_2)^2-4\gamma_1^2\gamma_2)\\
+ \Rightarrow\; c_S^{\text{crit}} &= 2\sqrt{\frac{\gamma_3}{\gamma_1\gamma_2^2}\left(\gamma_2\gamma_3+\gamma_1(\gamma_2+2\gamma_3)\right)}-\gamma_3\left(\frac{3}{\gamma_2}+\frac{1}{\gamma_1}\right),
+\end{align}
+%
+since $0 < c_S < 1$ has to be guaranteed, additionally $\gamma_3 < \frac{\gamma_2}{2+3\frac{\gamma_2}{\gamma_1}+\frac{\gamma_2^2}{\gamma_1^2}}$ must hold. This gives the critical item concentration $S^\text{crit}$
+%
+\begin{equation}
+ S^{\text{crit}}=\sqrt{\frac{\gamma_3}{\gamma_1\gamma_2^2}\left(\gamma_2\gamma_3+\gamma_1(\gamma_2+2\gamma_3)\right)}-\gamma_3\left(\frac{2}{\gamma_2}+\frac{1}{\gamma_1}\right).
+\end{equation}
+
+\paragraph{Adding diffusion:}
+
+Adding diffusion changes the Jacobian, the new Jacobian will be denoted $\mathbf{J}_D$.
+%
+\begin{equation*}
+ \mathbf{J}_D(D^*,S^*) = 
+ \begin{pmatrix}
+  -\gamma_3-\gamma_1 S^*-k^2 D_{\text{eff}} & \gamma_3-\gamma_1 D^*\\ 
+  -\gamma_1 S^* &  \gamma_2 c_S -2\gamma_2 S^*-\gamma_1 D^*-k^2 D_S
+ \end{pmatrix},
+\end{equation*}
+
+with the wavenumber $k$. Since 
+\begin{align}
+\Tr \mathbf{J}_D(S^*) &= -S^*(\gamma_1+\gamma_2)-\gamma_3-k^2(D_{\text{eff}}+D_S)
+\end{align}
+
+the trace condition remains fulfilled. 
+
+\begin{align}
+ \label{eq:detJD}\Det \mathbf{J}_D(S^*) &= D_{\text{eff}}D_S k^4+k^2\left(D_S(\gamma_1 S^*+\gamma_3)+D_{\text{eff}}S^*\gamma_2\right)+\Det \mathbf{J}
+\end{align}
+%
+\eqref{eq:detJD} is always positive for a steady state that was stable without diffusion, which means no Turing instability can occur in this system.
+
+\subsubsection{Spatially non-homogenous solutions}
+
+In addition to the globally homogenous solution there exists a spatially inhomogeneous solution, where the items form a cluster. 
+Therefore $S^*$ will be replaced by $S^*(\mathbf r)$. In order to investigate the characteristics of this solution it is assumed that the cluster is rotationally
+ symmetric, thus $S^*(\mathbf r)=S^*(r)$. Inserting this into eq. \eqref{eq:2dseq} leads to
+%
+\begin{align}
+ \nonumber D^* &= \gamma_3\frac{1-2c_s+S^*}{\gamma_3-\gamma_1 S^*},\\
+ 0 &= c_s\gamma_2-S^*(r)\left(\gamma_2-\gamma_1 D^*\right)+D_S\left(\frac{1}{r}\frac{\partial S^*(r)}{\partial r}+\frac{\partial^2 S^*(r)}{\partial r^2}\right),
+ \label{eq:DGL_inhom}
+\end{align}
+ %
+since $D$ is assumed to stay spatially homogenous (which requires sufficiently fast collectors), it only depends on the value of $S^*$ where $S^*=\frac{1}{A}\int S^*(r) \mathrm d\mathbf r=\frac{2\pi}{A}\int_0^\infty S^*(r)\,r\,\mathrm dr$, with the integration volume $A$. It is assumed to be the same as \eqref{eq:Sss}, which is essentially a zero order approximation from an expansion around $\frac{1}{r}=0$.
+Demanding a maximum at the center of the cluster and reaching zero at the end of the cluster radius $R_\text{cl}$ specifies the boundary conditions 
+%
+\begin{align}
+ \nonumber \frac{\partial S^*(0)}{\partial r} &= 0, \\
+ S(R_\text{cl}) &= 0.
+\label{eq:BC_inhom}
+\end{align}
+%
+With this the solution to \eqref{eq:DGL_inhom} and \eqref{eq:BC_inhom} is given by
+%
+\begin{align}
+ S^*(r) &= \frac{c_s}{1-\frac{\gamma_1}{\gamma_2}D^*}\left(1-\frac{J_0\left(i\,r\sqrt{\frac{\gamma_2-\gamma_1D^*}{D_S}}\right)}{J_0\left(i\,R_\text{cl}\sqrt{\frac{\gamma_2-\gamma_1D^*}{D_S}}\right)}\right)\,\Theta(-r+R_\text{cl}),
+\end{align}
+%
+with the Bessel function of the first kind and zero order $J_0$ and the Heaviside function $\Theta$ which is added to extend $S^*(r)$ to the whole space.
+
+%TODO: pics of this formula?
+
+\paragraph{Estimation of $R_\text{cl}$:}
+
+The radius of the cluster can be estimated by the system parameters assuming that all items belong to the cluster and its area is a perfect circle neglecting extension by diffusive effects, then $R_\text{cl}$ is given by
+%
+\begin{equation}
+ R_\text{cl}\approx\sqrt{\frac{S^*}{N_\text{grid}\,\pi}}\,L_\text{grid},
+ \label{eq:Rcl}
+\end{equation}
+%
+with the parameters introduced in sec. \ref{sec:simset}. Fig. \ref{fig:Rcl} shows that this estimation is in good agreement with simulations.
+%
+\begin{figure}[H]
+\centering
+  \includegraphics[width=.9\textwidth]{./Bilder/clusterRadius_new.pdf}
+\caption{Clustered state with estimated cluster radius shown, calculated from \eqref{eq:Rcl} and drawn in pink. Blue circles are items, arrows are collectors and their color represent their state. Parameters are $L=250$, $L_\text{grid}=2.5$, $N_\text{grid}=1$, $N_D=100$, $N_S=200$, $v_0=5$, $D_\phi=4$, $\gamma_1=\gamma_2=20$, $\gamma_3=\frac{1}{10}$ and $\tau_S=1000$. The large value of $\tau_S$ practically immobilizes the items thus \eqref{eq:Rcl} is in good agreement since the broadening due to diffusion can be neglected. The numbers beside the Cluster statement in the title are the values of MSD and MQD explained in the next section.}
+\label{fig:Rcl}
+\end{figure}
+
+\subsubsection{Clustering time and movement types}
+
+This section is about whether the movement type has measurable influence on the clustering time, i. e. the time the system needs from the random initial conditions until it ends up in the clustered state.
+The condition when to claim that the system is in a stable clustered state is no trivial task. Essentially two measures are used in this work, one (MQD) uses the mean quadratic distance (mqd) and the other (MSD) the mean squared displacement (msd).
+
+\paragraph{Mean quadratic distance:} The mean quadratic distance (mqd) is calculated by
+%
+\begin{equation}
+	\text{mqd}(t) = \frac{1}{n_S^2(t)}\sum_{i=1}^{n_S(t)}\sum_{k=1}^{n_S(t)}d_x^2(i,k)(t)+d_y^2(i,k)(t),
+\label{eq:mqd}
+\end{equation}
+%
+where $n_S$ is the number of free items (the discrete counterpart of $S$) and $d_j(i,k)$ is the distance function, which calculates the shortest distance between item $i$ and item $k$ in $j$-direction with periodic boundary conditions
+%
+\begin{equation}
+	d_j(i,k) = \min\left(\;\left|i_j-k_j\right|,L-\left|i_j-k_j\right|\;\right).
+\label{eq:d_molecule}
+\end{equation}
+%
+In order to construct a measure whose values are independent of the system parameters, the mqd will be normalized to its value in the uniform distributed state which is set at $t=0$
+%
+\begin{equation}
+	\text{MQD}(t) = \frac{\text{mqd}(t)}{\text{mqd}(0)}.
+\label{eq:MQD}
+\end{equation}
+%
+Therefore $\text{MQD}=1$ corresponds to a perfect homogenous state and $\text{MQD}=0$ would mean that all particles are located at one point.
+
+\paragraph{Mean squared displacement:} The mean squared displacement is calculated by
+%
+\begin{equation}
+	\text{msd}(t) = \frac{1}{n_S(t)}\sum_{i=1}^{n_S(t)}d_x^2(i,x_\text{CM})(t)+d_y^2(i,y_\text{CM})(t),
+\label{eq:msd}
+\end{equation}
+%
+with $x_\text{CM}$ and $y_\text{CM}$ being the $x$/$y$-component of the center of mass. For the same reasons as before it will be normalized but this time to the perfect clustered state. Assuming a perfect circular cluster with radius $R_\text{cl}$ and the items to have a size given by their radius $R_\text{item}=\frac{L_\text{grid}}{2}$ its msd is
+%
+\begin{align}
+	\nonumber \text{msd}_\text{pc} &= \frac{\sum_{i=1}^{\frac{R_\text{cl}}{2R_\text{item}}}n(i)\left(2R_\text{item}i\right)^2}{\sum_{i=1}^{\frac{R_\text{cl}}{2R_\text{item}}}n(i)} \\
+	\nonumber &= \frac{4R_\text{item}^2\,2\pi\sum_{i=1}^{\frac{R_\text{cl}}{2R_\text{item}}}i^3}{2\pi\sum_{i=1}^{\frac{R_\text{cl}}{2R_\text{item}}}i} \\
+	&= \frac{R_\text{cl}^2}{2}+R_\text{cl}R_\text{item},
+\label{eq:msdpc}
+\end{align}
+%
+where $n(i)=2\pi i$ is the number of particles on circle number $i$, each circle is $2R_\text{item}$ from the next.
+Thus the MSD is given by
+%
+\begin{equation}
+	\text{MSD}(t) = \frac{\text{msd}_\text{pc}}{\text{msd}(t)},
+\end{equation}
+%
+so $\text{MSD}=1$ corresponds to a perfect cluster and $\text{MSD}=0$ to a disordered state.
+%
+\begin{figure}[H]
+\centering
+  \includegraphics[width=.9\textwidth]{./Bilder/MSDMSQplot_new.pdf}
+\caption{Mean quadratic distance (MQD) and mean squared displacement (MSD) measure showing a transition from homogenous to clustered state for active collectors. It is visible that the MQD is more sensitive to small changes in the clustering indicating steps when few clusters arise whereas the MSD shows a sharp transition when the last big cluster is formed and is more sensitive to the fluctuations of this cluster after its formation, while the MQD remains constant in this regime. Parameters are the same as in fig. \ref{fig:Rcl}. The line shows the threshold for considering the state as clustered used in figs. \ref{fig:Tcl_v}-\ref{fig:Tcl_Dphi}.}
+\label{fig:MQDMSD}
+\end{figure}
+%
+
+Fig. \ref{fig:MQDMSD} shows the behavior of the different measures during a clustering transition. The efficiency of the different types of motion in forming clusters is inspected by simulations, whose parameters are chosen such that the effective diffusion constants are equal 
+%
+\begin{equation}
+D_\text{b.m.} = D_\text{a.m.} = \frac{v_0^4}{D_\phi}	
+\end{equation}
+%
+and that the persistence time of the Brownian motion equals the persistence length of the active motion $t_p^{\text{b.m.}}=t_p^{\text{a.m.}}$, which demands
+%
+\begin{equation}
+	\mu = \frac{D_\phi}{v_0^2}.
+\label{eq:muD_SD}
+\end{equation}
+%
+Figs \ref{fig:Tcl_v}-\ref{fig:Tcl_Dphi} show the results of this simulations. They were ran until the MSD reached the threshold of 0.7 which also allows for clusters that are not perfectly circular. It is visible that the Brownian motion is more efficient and consistent, i.e. it has smaller deviations, in reaching the clustered state under this conditions. This might be because the Brownian motion is more dense in space and since the concentration of particles is high, items are collected by some particle quickly, whereas the active particles due to their persistence length may cover the space not as efficiently. But further research have to be done to definitely explain this behavior and whether regions exist where this is the other way round.
+
+%
+\begin{figure}[H]
+\centering
+  \includegraphics[width=.9\textwidth]{./Bilder/cltimes_new.pdf}
+\caption{Mean clustering time $T_\text{cl}$ for $10$ runs per point and its standard deviation for different velocities $v_0$ in the range $4.5-5.5$ for Brownian motion and constant velocities. Brownian motion is more efficient on average in this regime, roughly by a factor of $3$. Also the deviations are less. Parameters are $L=250$, $\tau_S=1000$, $\gamma_1=\gamma_2=10$, $\gamma_3=\frac{1}{10}$, $N_D=100$, $N_S=200$, $N_\text{grid}=1$, $L_\text{grid}=1$ and $D_\phi=4$.}
+\label{fig:Tcl_v}
+\end{figure}
+%
+\begin{figure}[H]
+\centering
+  \includegraphics[width=.9\textwidth]{./Bilder/cltimes_Dphi--0-1--5-1--0-1.pdf}
+\caption{Mean clustering time $T_\text{cl}$ for $10$ runs per point and its standard deviation for varying noise intensity $D_\phi$ for Brownian motion and constant velocities. It shows, that Brownian motion is even more efficient the smaller $D_\phi$ becomes, that means that the more ballistic the motion of the active particle is, the larger is the discrepancy. Parameters are $L=250$, $\tau_S=1000$, $\gamma_1=\gamma_2=10$, $\gamma_3=\frac{1}{10}$, $N_D=100$, $N_S=200$, $N_\text{grid}=1$, $L_\text{grid}=1$ and $v_0=5$.}
+\label{fig:Tcl_Dphi}
+\end{figure}
+
