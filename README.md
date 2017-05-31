@@ -1,4 +1,4 @@
-# Sheep 'n' Dogs
+# flase (Sheep 'n' Dogs)
 Agent based simulation of a collector and item model with diffusive items in 2D. 
 Features normal Brownian motion and random movement with constant velocity.
 
