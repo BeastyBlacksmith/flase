@@ -2,7 +2,7 @@
  * flase
 Agent based simulation of a collector and item model with diffusive items in 2D.
 Features normal Brownian motion and random movement with constant velocity.
-Copyright (C) 2017  Simon Christ <c.O_o.l@web.de>, Jörg Bachmann <>
+Copyright (C) 2017  Simon Christ <c.O_o.l@web.de>, Jörg Bachmann <explicit@explicits.de>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

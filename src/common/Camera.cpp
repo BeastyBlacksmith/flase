@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2017  Simon Christ <c.O_o.l@web.de>, Jörg Bachmann <explicit@explicits.de>
+
+This program is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include <math.h>
 
@@ -13,67 +29,67 @@ Camera::Camera( )
 
 Matrix Camera::get_modelview_matrix( ) const
 {
-        Matrix m = rotation;
-
-        const RVec v = pos * rotation;
-
-        m[12] = -v[0];
-        m[13] = -v[1];
-        m[14] = -v[2];
-
-        return m;
+	Matrix m = rotation;
+	
+	const RVec v = pos * rotation;
+	
+	m[12] = -v[0];
+	m[13] = -v[1];
+	m[14] = -v[2];
+	
+	return m;
 }
 
 void Camera::reset_bounds()
 {
-        const Matrix m = get_modelview_matrix() * projection;
-
-        n_left = RVec(
-                        m.v[3] + m.v[0],
-                        m.v[7] + m.v[4],
-                        m.v[11] + m.v[8]);
-
-        n_right = RVec(
-                        m.v[3] - m.v[0],
-                        m.v[7] - m.v[4],
-                        m.v[11] - m.v[8]);
-        
-        n_bottom = RVec(
-                        m.v[3] + m.v[1],
-                        m.v[7] + m.v[5],
-                        m.v[11] + m.v[9]);
-        
-        n_top = RVec(
-                        m.v[3] - m.v[1],
-                        m.v[7] - m.v[5],
-                        m.v[11] - m.v[9]);
-        
-        n_near = RVec(
-                        m.v[3] + m.v[2],
-                        m.v[7] + m.v[6],
-                        m.v[11] + m.v[10]);
-
-        n_far = RVec(
-                        m.v[3] - m.v[2],
-                        m.v[7] - m.v[6],
-                        m.v[11] - m.v[10]);
-
-        const real d_near = m.v[15] + m.v[14];
-        const real d_far = m.v[15] - m.v[14];
-
-        const RVec d_bl = n_bottom.cross( n_left );
-        const RVec d_br = n_bottom.cross( n_right );
-        const RVec d_tl = n_top.cross( n_left );
-        const RVec d_tr = n_top.cross( n_right );
-
-        nbl = plane_line_intersection( pos, d_bl, n_near, d_near );
-        nbr = plane_line_intersection( pos, d_br, n_near, d_near );
-        ntl = plane_line_intersection( pos, d_tl, n_near, d_near );
-        ntr = plane_line_intersection( pos, d_tr, n_near, d_near );
-        fbl = plane_line_intersection( pos, d_bl, n_far, d_far );
-        fbr = plane_line_intersection( pos, d_br, n_far, d_far );
-        ftl = plane_line_intersection( pos, d_tl, n_far, d_far );
-        ftr = plane_line_intersection( pos, d_tr, n_far, d_far );
+	const Matrix m = get_modelview_matrix() * projection;
+	
+	n_left = RVec(
+			m.v[3] + m.v[0],
+			m.v[7] + m.v[4],
+			m.v[11] + m.v[8]);
+	
+	n_right = RVec(
+			m.v[3] - m.v[0],
+			m.v[7] - m.v[4],
+			m.v[11] - m.v[8]);
+	
+	n_bottom = RVec(
+			m.v[3] + m.v[1],
+			m.v[7] + m.v[5],
+			m.v[11] + m.v[9]);
+	
+	n_top = RVec(
+			m.v[3] - m.v[1],
+			m.v[7] - m.v[5],
+			m.v[11] - m.v[9]);
+	
+	n_near = RVec(
+			m.v[3] + m.v[2],
+			m.v[7] + m.v[6],
+			m.v[11] + m.v[10]);
+	
+	n_far = RVec(
+			m.v[3] - m.v[2],
+			m.v[7] - m.v[6],
+			m.v[11] - m.v[10]);
+	
+	const real d_near = m.v[15] + m.v[14];
+	const real d_far = m.v[15] - m.v[14];
+	
+	const RVec d_bl = n_bottom.cross( n_left );
+	const RVec d_br = n_bottom.cross( n_right );
+	const RVec d_tl = n_top.cross( n_left );
+	const RVec d_tr = n_top.cross( n_right );
+	
+	nbl = plane_line_intersection( pos, d_bl, n_near, d_near );
+	nbr = plane_line_intersection( pos, d_br, n_near, d_near );
+	ntl = plane_line_intersection( pos, d_tl, n_near, d_near );
+	ntr = plane_line_intersection( pos, d_tr, n_near, d_near );
+	fbl = plane_line_intersection( pos, d_bl, n_far, d_far );
+	fbr = plane_line_intersection( pos, d_br, n_far, d_far );
+	ftl = plane_line_intersection( pos, d_tl, n_far, d_far );
+	ftr = plane_line_intersection( pos, d_tr, n_far, d_far );
 }
 
 RVec Camera::getX( ) const
@@ -123,27 +139,27 @@ void Camera::move( const RVec& d )
 void Camera::rotate( real dRX, real dRY, real dRZ )
 {
 	Matrix m;
-
+	
 	m.rotation( dRX, dRY, dRZ );
-
+	
 	rotation *= m;
 }
 
 void Camera::rotate( real angle, real nx, real ny, real nz )
 {
 	Matrix m;
-
+	
 	m.rotation( angle, nx, ny, nz );
-
+	
 	rotation *= m;
 }
 
 void Camera::rotate( real angle, const RVec& axis )
 {
 	Matrix m;
-
+	
 	m.rotation( angle, axis );
-
+	
 	rotation *= m;
 }
 
@@ -156,23 +172,23 @@ void Camera::lookdir( real dx, real dy, real dz, real ux, real uy, real uz )
 {
 	real nd = 1 / sqrt (dx*dx + dy*dy + dz*dy);
 	real nu = 1 / sqrt (ux*ux + uy*uy + uz*uy);
-
+	
 	dx *= nd;
 	dy *= nd;
 	dz *= nd;
-
+	
 	ux *= nu;
 	uy *= nu;
 	uz *= nu;
-
+	
 	rotation.v[ 0 ] = dx;
 	rotation.v[ 4 ] = dy;
 	rotation.v[ 8 ] = dz;
-
+	
 	rotation.v[ 1 ] = ux;
 	rotation.v[ 5 ] = uy;
 	rotation.v[ 9 ] = uz;
-
+	
 	rotation.v[ 2 ] = dy*uz - dz*uy;
 	rotation.v[ 6 ] = dz*ux - dx*uz;
 	rotation.v[ 10 ]= dx*uy - dy*ux;
@@ -180,7 +196,7 @@ void Camera::lookdir( real dx, real dy, real dz, real ux, real uy, real uz )
 
 void Camera::viewFrom( ) const
 {
-        glMatrixMode( GL_MODELVIEW );
-        const Matrix m = get_modelview_matrix();
-        glLoadMatrixd( m.v );
+	glMatrixMode( GL_MODELVIEW );
+	const Matrix m = get_modelview_matrix();
+	glLoadMatrixd( m.v );
 }
