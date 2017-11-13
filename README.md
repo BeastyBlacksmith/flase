@@ -38,15 +38,7 @@ Check the physics document if the meaning of parameters is unclear and for gener
 
 ## Physics
 
-`cd {YOUR_PATH}/flase/tex`
 
-`latex physics`
-
-`biber physics`
-
-`latex physics`
-
-View physics.pdf.
 
 ## Contributing
 
@@ -55,10 +47,6 @@ View physics.pdf.
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
-
-## History
-
-TODO: Write history
 
 ## Credits
 
