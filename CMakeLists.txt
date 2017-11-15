@@ -2,10 +2,10 @@
 cmake_minimum_required( VERSION 2.8 )
 project( sheepndogs )
 
-set(CMAKE_CXX_FLAGS "-std=gnu++0x -O3 -Wall -L..")
+set(CMAKE_CXX_FLAGS "-std=gnu++0x -O3 -Wall ")
 
 set(sheepndogs_includes "src/" "src/common" "src/wnd" "src/libkdtree/kdtree++")
-include_directories( ${sheepndogs_includes} "~/glew/include" "~/glut/include" )
+include_directories(${sheepndogs_includes})
 file( MAKE_DIRECTORY "build/temp" )
 file(GLOB sheepndogs_src1 "src/*.cpp")
 file(GLOB_RECURSE sheepndogs_src2
