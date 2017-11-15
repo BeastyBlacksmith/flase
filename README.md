@@ -53,6 +53,8 @@ Check the physics document if the meaning of parameters is unclear and for gener
 This program was built during my masters at Humboldt University Berlin.
 Special thanks to Prof. Schimansky-Geier and Jörg Bachmann.
 
+The kdtree used is by Martin F. Krafft and also hosted at https://anonscm.debian.org/cgit/libkdtree/libkdtree.git/
+
 ## License
 
 see LICENSE.md
