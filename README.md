@@ -38,7 +38,7 @@ Check the physics document if the meaning of parameters is unclear and for gener
 
 ## Physics
 
-(See this part of my master thesis)[https://gitlab.gwdg.de/MSc/flase/uploads/88b35ae75e67d10dbd5a0e76ca3cf737/physics.pdf]
+[See this part of my master thesis](https://gitlab.gwdg.de/MSc/flase/uploads/88b35ae75e67d10dbd5a0e76ca3cf737/physics.pdf)
 
 ## Contributing
 
