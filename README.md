@@ -38,20 +38,15 @@ Check the physics document if the meaning of parameters is unclear and for gener
 
 ## Physics
 
+[See this part of my master thesis](https://gitlab.gwdg.de/MSc/flase/uploads/88b35ae75e67d10dbd5a0e76ca3cf737/physics.pdf)
 
-
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
 
 ## Credits
 
 This program was built during my masters at Humboldt University Berlin.
 Special thanks to Prof. Schimansky-Geier and Jörg Bachmann.
+
+The kdtree used is by Martin F. Krafft and also hosted at https://anonscm.debian.org/cgit/libkdtree/libkdtree.git/
 
 ## License
 
