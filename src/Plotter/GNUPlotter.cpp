@@ -94,7 +94,7 @@ void GNUPlotter::plot( World& world, real time )
         outGnuPlot << "set terminal wxt size 750,750" << "\n";
         outGnuPlot << "unset key" << "\n";
         outGnuPlot << "set cbrange [1:3]" << "\n";
-        outGnuPlot << "set cbtics 1,1,3" << "\n";
+//        outGnuPlot << "set cbtics 1,1,3" << "\n";
         outGnuPlot << "set xrange[0:" << world.boxsize << "];set yrange[0:" << world.boxsize << "];" << "\n";
         outGnuPlot << "set title \" time=" << time << ", Cluster=" << measure.getMSD() <<" / " << measure.getMQD() << "\"\n";
         outGnuPlot << "set palette model RGB defined (1 \"red\", 2 \"black\", 3 \"green\")" << "\n";
