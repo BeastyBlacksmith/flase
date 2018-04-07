@@ -231,10 +231,10 @@ void paste_params(Motion& motion)
     printf("pers. Time:\t%f\n", motion.getPersistenceTime() );
     printf("pers. Length:\t%f\n", motion.getPersistenceLength() );
     printf("\n===============================\n");
-    
+
     FILE *fp;
     fp=fopen("./temp/parameters.dat","w");
-    
+
     fprintf(fp,"\nNd:\t%i\n",Nd);
     fprintf(fp,"Ns:\t%i\n",Ns);
     fprintf(fp,"Box:\t%i\n",L);
@@ -257,7 +257,7 @@ void paste_params(Motion& motion)
     fprintf( fp, "pers. Time:\t%f\n", motion.getPersistenceTime() );
     fprintf( fp, "pers. Length:\t%f\n", motion.getPersistenceLength() );
     fprintf( fp, "\n===============================\n");
-    
+
     fclose( fp);
 }
 
@@ -265,11 +265,11 @@ int main( int argc, char** argv )
 {
     // init random number generator
     showLicenseNotification();
-    
+
     const gsl_rng_type *T;
     gsl_rng *rng;
     long int seed;
-    
+
     gsl_rng_env_setup();
     T = gsl_rng_default;
     rng = gsl_rng_alloc ( T);
@@ -277,9 +277,9 @@ int main( int argc, char** argv )
     time( &t1);
     seed=t1;
     gsl_rng_set( rng, seed);
-    
+
     // read parameters
-    
+
     parse_params( argc, argv);
     //get things right
     {
@@ -291,7 +291,7 @@ int main( int argc, char** argv )
         printf( "Too many sheep\n");
         exit(1);
     }
-    
+
     // setup simulation
     Motion* motion = NULL;
     switch(mov)
@@ -302,13 +302,13 @@ int main( int argc, char** argv )
         case 1:
             motion = new BrownianMotion ( v0 * v0 * v0 * v0 / (2 * Dphi), rng, mu );                //D_bm should match D_eff
             break;
-        
+
         default:
             cerr << "Motion == " << mov << "?! Bei dir hackt's wohl!!" << endl;
             return -1;
     }
     Dogs dogs(*motion);
-    
+
     Sheep* sheep = NULL;
     switch( sc )
     {
@@ -324,7 +324,7 @@ int main( int argc, char** argv )
     }
     World::createInstance( L, rng, t3, r1, r2, *sheep, dogs );
     HarryPlotter* plotter = NULL;
-    
+
     Measure* measure = NULL;
     if( mout == "void" )
     {
@@ -334,7 +334,7 @@ int main( int argc, char** argv )
     {
         measure = new DoMeasure( t_out/delta_t, mout );
     }
-    
+
     switch(pr)
     {
         case 0:
@@ -351,12 +351,12 @@ int main( int argc, char** argv )
             cerr << "Plotter == " << pr << "?! Bei dir hackt's wohl!!" << endl;
             return -1;
     }
-    
+
     sheep->init(Ns);
     measure->init();
-    
+
     Simulation* simulation = NULL;
-    
+
     switch( sim )
     {
         case 0:
@@ -372,22 +372,22 @@ int main( int argc, char** argv )
             cerr << "Simulation == " << sim << "?! Bei dir hackt's wohl!!" << endl;
             return -1;
     }
-    
+
     dogs.init(Nd, v0);
-    
+
     //measure time
     //simulate
     Clock clock;
     clock.tick();
     simtime = simulation->run();
     clock.tick();
-    
+
     //Print parameters
     paste_params( *motion );
-    
+
     cout << "Time per run: " << clock.getFrameTime() << " s" << endl;
     // let's have some fun
-    
+
     // clean up!!!!!!!!
     {
         delete sheep;
@@ -396,7 +396,6 @@ int main( int argc, char** argv )
         delete motion;
         delete measure;
     }
-    
+
     return 0;
 }
-
