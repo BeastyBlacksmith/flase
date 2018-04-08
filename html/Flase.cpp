@@ -14,6 +14,7 @@ Flase::Flase( Dogs &dogs, const size_t size ) :
         dogs( dogs )
 {
     resize( size, size );
+    
 }
 
 Flase::~Flase()
