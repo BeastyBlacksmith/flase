@@ -24,8 +24,8 @@ FlaseContainer::FlaseContainer()
     seed = t1;
     gsl_rng_set( rng, seed );
     
-    Dogs dogs = Dogs( *( new BrownianMotion( 4.0, rng, 1.0 ) ) );
+    Motion* motion = new BrownianMotion( 4.0, rng, 1.0 );
+    Dogs dogs = Dogs( *motion );
     
-    
-    frame = addWidget( make_unique<Flase>( dogs ) );
+    frame = addWidget( make_unique<Flase>( dogs, rng ) );
 }

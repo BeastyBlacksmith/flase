@@ -36,6 +36,8 @@ public:
     Dogs( Motion& motion );
     ~Dogs();
     virtual void init( size_t nDogs, real v0 );
+    
+    void init( size_t nDogs, real v0, double boxsize, gsl_rng* const rng );
 
     Doggy& operator[]( size_t i ) const { return *dogs[i]; }
     size_t size() const { return dogs.size(); }

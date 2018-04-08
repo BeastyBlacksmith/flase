@@ -5,15 +5,15 @@
 #ifndef SHEEPNDOGS_FLASEAPP_H
 #define SHEEPNDOGS_FLASEAPP_H
 
-#include <Wt/WPaintedWidget>
-#include <Wt/WPaintDevice>
-#include <Wt/Wpainter>
+#include <Wt/WPaintedWidget.h>
+#include <Wt/WPaintDevice.h>
+#include <Wt/Wpainter.h>
 #include <Dogs.h>
 
 class Flase : public Wt::WPaintedWidget
 {
 public:
-    Flase( Dogs &dogs, const size_t size = 500 );
+    Flase( Dogs &dogs, gsl_rng* const rng, const size_t size = 500 );
     
     ~Flase();
 

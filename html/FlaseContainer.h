@@ -5,8 +5,8 @@
 #ifndef SHEEPNDOGS_FLASECONTAINER_H
 #define SHEEPNDOGS_FLASECONTAINER_H
 
-#include <Wt/WContainerWidget>
-#include <Wt/WPaintedWidget>
+#include <Wt/WContainerWidget.h>
+#include <Wt/WPaintedWidget.h>
 #include <Motion/BrownianMotion.h>
 #include "Flase.h"
 

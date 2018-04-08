@@ -56,6 +56,26 @@ void Dogs::init( size_t nDogs, real v0 )
     }
 }
 
+void Dogs::init( size_t nDogs, real v0, double boxsize, gsl_rng* const rng )
+{
+    dogs.resize( nDogs );
+    
+    real vabs = v0;
+    real phi = 0;
+    
+    for( size_t i = 0; i < nDogs; ++i )
+    {
+        phi = 2 * Constants::pi * gsl_rng_uniform( rng );
+        
+        dogs[i] = new Doggy;
+        dogs[i]->x = boxsize * gsl_rng_uniform( rng );
+        dogs[i]->y = boxsize * gsl_rng_uniform( rng );
+        dogs[i]->vx = vabs * cos( phi );
+        dogs[i]->vy = vabs * sin( phi );
+        
+    }
+}
+
 void Dogs::work( real dt )
 {
 //#   pragma omp parallel for
