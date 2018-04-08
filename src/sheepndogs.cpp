@@ -263,9 +263,9 @@ void paste_params(Motion& motion)
 
 int main( int argc, char** argv )
 {
-    // init random number generator
     showLicenseNotification();
-
+    
+    // init random number generator
     const gsl_rng_type *T;
     gsl_rng *rng;
     long int seed;

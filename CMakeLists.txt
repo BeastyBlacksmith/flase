@@ -17,10 +17,21 @@ file(GLOB_RECURSE sheepndogs_src2
         "src/Sheep/*.cpp"
         "src/Dogs/*.cpp"
         "src/Simulation/*.cpp"
-        "html/*.cpp"
+        )
+
+file(GLOB web_src "html/*.cpp")
+file(GLOB sheep2web
+        "src/common.cpp"
+        "src/Sheep.h"
+        "src/Dogs.cpp"
+        "src/World.cpp"
+        "src/Motion/*.cpp"
+        "src/Dogs/*.cpp"
+        "src/Sheep/*.cpp"
         )
 
 add_executable(sheepndogs ${sheepndogs_src1} ${sheepndogs_src2})
+add_executable(flase_app ${web_src} ${sheep2web})
 find_package(Wt REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
@@ -31,6 +42,7 @@ include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS} ${GLEW_INCLUDE_D
 
 target_link_libraries(sheepndogs ${WT_LIBRARIES} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${GLEW_LIBRARIES}
         GSL::gsl GSL::gslcblas m)
+target_link_libraries(flase_app ${WT_LIBRARIES} GSL::gsl GSL::gslcblas m wt wthttp)
 
-add_custom_target( cleantemp )
-add_custom_command( TARGET cleantemp COMMAND rm -rf temp/*)
+add_custom_target(cleantemp)
+add_custom_command(TARGET cleantemp COMMAND rm -rf temp/*)
