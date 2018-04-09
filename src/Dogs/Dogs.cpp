@@ -23,6 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Dogs.h"
 #include "World.h"
 
+using namespace std;
+
 Dogs::Dogs( Motion& motion ) :
         motion( motion )
 {

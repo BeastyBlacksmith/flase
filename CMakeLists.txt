@@ -23,7 +23,8 @@ file(GLOB web_src "html/*.cpp")
 file(GLOB sheep2web
         "src/common.cpp"
         "src/Sheep.h"
-        "src/Dogs.cpp"
+        "src/Dogs.h"
+        "src/World.h"
         "src/World.cpp"
         "src/Motion/*.cpp"
         "src/Dogs/*.cpp"
