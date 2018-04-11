@@ -13,7 +13,7 @@
 class Flase : public Wt::WPaintedWidget
 {
 public:
-    Flase( Dogs* dogs, gsl_rng* const rng, const size_t size = 500 );
+    Flase( gsl_rng* const rng, const size_t size = 500 );
     
     ~Flase();
 
@@ -22,7 +22,10 @@ protected:
 
 private:
     std::size_t size;
-    Dogs* dogs;
+    double meanSheepDiffusionTime{ 1000 };
+    double tsheepboredom;
+    double time{ 0 };
+    double dt{ 0.1 };
     
     void nextFrame( double dt );
 };

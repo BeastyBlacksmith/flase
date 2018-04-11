@@ -29,6 +29,7 @@ file(GLOB sheep2web
         "src/Motion/*.cpp"
         "src/Dogs/*.cpp"
         "src/Sheep/*.cpp"
+        "src/Sheep/*.h"
         )
 
 add_executable(sheepndogs ${sheepndogs_src1} ${sheepndogs_src2})
