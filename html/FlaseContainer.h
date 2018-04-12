@@ -5,6 +5,7 @@
 #ifndef SHEEPNDOGS_FLASECONTAINER_H
 #define SHEEPNDOGS_FLASECONTAINER_H
 
+#include <Wt/WPushButton.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WPaintedWidget.h>
 #include <Motion/BrownianMotion.h>
@@ -16,8 +17,8 @@ public:
     FlaseContainer();
 
 private:
-    Wt::WPaintedWidget* frame;
-    
+    Flase* frame;
+    Wt::WPushButton* start;
 };
 
 

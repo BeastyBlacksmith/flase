@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
+#include <iostream>
 
 #include "BrownianMotion.h"
 

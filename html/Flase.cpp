@@ -16,8 +16,8 @@ Flase::Flase( gsl_rng* const rng, const size_t size ) :
 {
     resize( size, size );
     
-    BrownianMotion motion( 4.0, rng, 1.0 );
-    Dogs* dogs = new Dogs( motion );
+    motion = new BrownianMotion( 4.0, rng, 1.0 );
+    Dogs* dogs = new Dogs( *motion );
     Sheep* sheep = new SheepField( size / 2.5, 1, rng );
     
     dogs->init( 50, 1., size, rng );
@@ -60,10 +60,9 @@ void Flase::paintEvent( Wt::WPaintDevice* paintDevice )
             }
         }
     }
-//   TODO: how to iterate? nextFrame( dt );
 }
 
-void Flase::nextFrame( double dt )
+void Flase::startSimulation( double dt )
 {
     World &world = World::instance();
     
@@ -96,5 +95,8 @@ void Flase::nextFrame( double dt )
         world.dogs.work( dt );
     }
     time += dt;
+    cout << "DEBUG: HERE" << endl;
+    update();
+    cout << "DEBUG: HERE" << endl;
 }
 

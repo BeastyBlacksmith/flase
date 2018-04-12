@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstddef>
 #include "World.h"
 
+using namespace std;
+
 World* World::singleton( NULL );
 
 void World::createInstance( real boxsize, gsl_rng* const rng, real meanSleepyness, real businessRate, real freedomRate, Sheep& sheep, Dogs& dogs )
@@ -48,7 +50,7 @@ void World::moveDogs( real dt )
 {
     for( size_t i = 0; i < dogs.size(); ++i ) {
         Doggy& dog = dogs[i];
-
+    
         dog.move( dt, dogs.motion );
         pbc( dog.x, dog.y );
     }
@@ -67,6 +69,7 @@ void World::pbc( real& x, real& y ) const
     x=tx;
     y=ty;
     
+    // TODO: sometimes this assertions trigger...
     assert(y >= 0);
     assert(x >= 0);
 }

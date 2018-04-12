@@ -25,4 +25,6 @@ FlaseContainer::FlaseContainer()
     gsl_rng_set( rng, seed );
     
     frame = addWidget( make_unique<Flase>( rng ) );
+    start = this->addWidget( make_unique<WPushButton>( "Start" ) );
+    start->clicked().connect( start, [this] { frame->startSimulation( 0.1 ); } );
 }

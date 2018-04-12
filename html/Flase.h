@@ -16,18 +16,20 @@ public:
     Flase( gsl_rng* const rng, const size_t size = 500 );
     
     ~Flase();
+    
+    void startSimulation( double dt );
 
 protected:
     void paintEvent( Wt::WPaintDevice* paintDevice ) override;
 
 private:
     std::size_t size;
+    Motion* motion;
     double meanSheepDiffusionTime{ 1000 };
     double tsheepboredom;
     double time{ 0 };
     double dt{ 0.1 };
     
-    void nextFrame( double dt );
 };
 
 
