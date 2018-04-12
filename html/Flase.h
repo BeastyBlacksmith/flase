@@ -28,7 +28,6 @@ private:
     double meanSheepDiffusionTime{ 1000 };
     double tsheepboredom;
     double time{ 0 };
-    double dt{ 0.1 };
     
 };
 

@@ -30,6 +30,14 @@ Dogs::Dogs( Motion& motion ) :
 {
 }
 
+Dogs::Dogs( const Dogs &that ) :
+        motion( that.motion )
+{
+    v0 = that.v0;
+    copyDogs( that.dogs );
+}
+
+
 Dogs::~Dogs()
 {
     for( size_t i = 0; i < dogs.size(); ++i ) {
@@ -40,7 +48,7 @@ Dogs::~Dogs()
 void Dogs::init( size_t nDogs, real v0 )
 {
     dogs.resize( nDogs );
-    
+    this->v0 = v0;
     World& world = World::instance();
     real vabs = v0;
     real phi = 0;
@@ -61,7 +69,7 @@ void Dogs::init( size_t nDogs, real v0 )
 void Dogs::init( size_t nDogs, real v0, double boxsize, gsl_rng* const rng )
 {
     dogs.resize( nDogs );
-    
+    this->v0 = v0;
     real vabs = v0;
     real phi = 0;
     
@@ -83,6 +91,30 @@ void Dogs::work( real dt )
 //#   pragma omp parallel for
     for( size_t i = 0; i < dogs.size(); ++i ) {
         dogs[i]->work( dt );
+    }
+}
+
+Dogs &Dogs::operator=( const Dogs &that )
+{
+    motion = that.motion;
+    v0 = that.v0;
+    copyDogs( that.dogs );
+    return *this;
+}
+
+void Dogs::copyDogs( std::vector<Doggy*> those )
+{
+    dogs.resize( those.size() );
+    
+    for( size_t i = 0; i < those.size(); ++i )
+    {
+        
+        dogs[i] = new Doggy;
+        dogs[i]->x = those[i]->x;
+        dogs[i]->y = those[i]->y;
+        dogs[i]->vx = those[i]->vx;
+        dogs[i]->vy = those[i]->vy;
+        
     }
 }
 

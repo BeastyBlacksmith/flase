@@ -34,6 +34,10 @@ class Dogs
 public:
 
     Dogs( Motion& motion );
+    
+    Dogs( const Dogs &that );
+    
+    Dogs &operator=( const Dogs &that );
     ~Dogs();
     virtual void init( size_t nDogs, real v0 );
     
@@ -43,14 +47,21 @@ public:
     size_t size() const { return dogs.size(); }
 
     void work( real dt );
+    
+    double getV0() const { return v0; }
 
     Motion& motion;
 
     const std::vector< Doggy* >& getDogs() const { return dogs; }
 
 protected:
-
+    
+    void copyDogs( std::vector<Doggy*> those );
     std::vector< Doggy* > dogs;
+
+private:
+    
+    real v0{ 0 };
 };
 
 #endif // _DOGS_H

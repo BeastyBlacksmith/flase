@@ -22,6 +22,7 @@ FlaseContainer::FlaseContainer()
     time_t t1;
     time( &t1 );
     seed = t1;
+//    seed = 1523557004;
     gsl_rng_set( rng, seed );
     
     frame = addWidget( make_unique<Flase>( rng ) );

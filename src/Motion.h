@@ -46,7 +46,7 @@ public:
 protected:
 
     real noise;
-    gsl_rng* const rng;
+    gsl_rng* rng;
     real persistenceLength;
     real persistenceTime;
     real effectiveDiffusion;

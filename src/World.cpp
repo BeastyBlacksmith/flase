@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <assert.h>
 #include <math.h>
 #include <cstddef>
+#include <gsl/gsl_rng.h>
 #include "World.h"
 
 using namespace std;
@@ -69,7 +70,8 @@ void World::pbc( real& x, real& y ) const
     x=tx;
     y=ty;
     
-    // TODO: sometimes this assertions trigger...
+    assert( !isnan( x ) );
+    assert( !isnan( y ) );
     assert(y >= 0);
     assert(x >= 0);
 }
