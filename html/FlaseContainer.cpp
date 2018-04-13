@@ -43,6 +43,15 @@ FlaseContainer::FlaseContainer( WApplication &app ) :
     }
     { // Controls
         controls = controlBox->addWidget( make_unique<WGroupBox>( "Controls" ) );
+        setDt = controls->addWidget( make_unique<WLineEdit>() );
+        setDt->setInline( false );
+        setDt->setPlaceholderText( "Timestep: " + to_string( dt ) );
+        setDt->enterPressed().connect( [this] { dt = stod( setDt->text() ); } );
+        setDt->enterPressed().connect( [this] {
+                                           setDt->setText( "" );
+                                           setDt->setPlaceholderText( "Timestep: " + to_string( dt ) );
+                                       }
+        );
     }
     { // Buttons
         { // Motion Buttons
@@ -86,7 +95,7 @@ FlaseContainer::FlaseContainer( WApplication &app ) :
                 {
                     for( int i = 0; i < 100; ++i )
                     {
-                        frame->startSimulation( 0.1 );
+                        frame->startSimulation( dt );
                     
                     }
                     app.processEvents();

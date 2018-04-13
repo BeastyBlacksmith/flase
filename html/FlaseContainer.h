@@ -16,6 +16,8 @@
 #include <Wt/WContainerWidget.h>
 #include <Wt/WPaintedWidget.h>
 #include <Motion/BrownianMotion.h>
+#include <Wt/WLineEdit.h>
+#include <Wt/WTemplate.h>
 #include "Flase.h"
 
 class FlaseContainer : public Wt::WContainerWidget
@@ -37,7 +39,10 @@ private:
     
     Wt::WRadioButton* motionButton;
     std::shared_ptr<Wt::WButtonGroup> motionButtons;
+    
+    Wt::WLineEdit* setDt;
     bool isRunning{ true };
+    double dt{ 0.1 };
 };
 
 
