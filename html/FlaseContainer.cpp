@@ -3,11 +3,14 @@
 //
 
 #include "FlaseContainer.h"
+#include <chrono>
+#include <thread>
 
 using namespace Wt;
 using namespace std;
 
-FlaseContainer::FlaseContainer()
+FlaseContainer::FlaseContainer( WApplication &app ) :
+        app( app )
 {
     setContentAlignment( AlignmentFlag::Center );
     
@@ -25,7 +28,29 @@ FlaseContainer::FlaseContainer()
 //    seed = 1523557004;
     gsl_rng_set( rng, seed );
     
-    frame = addWidget( make_unique<Flase>( rng ) );
-    start = this->addWidget( make_unique<WPushButton>( "Start" ) );
-    start->clicked().connect( start, [this] { frame->startSimulation( 0.1 ); } );
+    { // Text
+        header = this->addWidget( make_unique<WText>( "<h1>Flase: Diffusive collector-item simulation</h1>" ) );
+    }
+    { // Simulation frame
+        frame = addWidget( make_unique<Flase>( rng ) );
+    }
+    { // Buttons
+        start = this->addWidget( make_unique<WPushButton>( "Start" ) );
+        stop = this->addWidget( make_unique<WPushButton>( "Stop!" ) );
+        stop->clicked().connect( start, &WPushButton::enable );
+        stop->clicked().connect( stop, [this] { isRunning = false; } );
+        start->clicked().connect( start, &WPushButton::disable );
+        start->clicked().connect( start, [this, &app] {
+            isRunning = true;
+            while( isRunning )
+            {
+                for( int i = 0; i < 100; ++i )
+                {
+                    frame->startSimulation( 0.1 );
+                    
+                }
+                app.processEvents();
+            }
+        } );
+    }
 }

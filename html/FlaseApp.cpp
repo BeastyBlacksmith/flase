@@ -15,7 +15,7 @@ public:
     {
         setTitle( "flase: diffusive item-collector simulation" );
     
-        root()->addWidget( std::make_unique<FlaseContainer>() );
+        root()->addWidget( std::make_unique<FlaseContainer>( *this ) );
         
     }
 };

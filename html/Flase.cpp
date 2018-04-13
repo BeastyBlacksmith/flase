@@ -95,7 +95,6 @@ void Flase::startSimulation( double dt )
         world.dogs.work( dt );
     }
     time += dt;
-    cout << &world.dogs.motion << endl;
-    update( PaintFlag::Update );
+    update();
 }
 

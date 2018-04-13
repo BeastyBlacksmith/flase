@@ -5,6 +5,8 @@
 #ifndef SHEEPNDOGS_FLASECONTAINER_H
 #define SHEEPNDOGS_FLASECONTAINER_H
 
+#include <Wt/WApplication.h>
+#include <Wt/WText.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WPaintedWidget.h>
@@ -14,11 +16,15 @@
 class FlaseContainer : public Wt::WContainerWidget
 {
 public:
-    FlaseContainer();
+    FlaseContainer( Wt::WApplication &app );
 
 private:
+    Wt::WText* header;
+    Wt::WApplication &app;
     Flase* frame;
     Wt::WPushButton* start;
+    Wt::WPushButton* stop;
+    bool isRunning{ true };
 };
 
 
