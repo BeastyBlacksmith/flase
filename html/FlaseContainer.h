@@ -6,6 +6,9 @@
 #define SHEEPNDOGS_FLASECONTAINER_H
 
 #include <Wt/WApplication.h>
+#include <Wt/WGroupBox.h>
+#include <Wt/WHBoxLayout.h>
+#include <Wt/WVBoxLayout.h>
 #include <Wt/WText.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WContainerWidget.h>
@@ -19,11 +22,16 @@ public:
     FlaseContainer( Wt::WApplication &app );
 
 private:
-    Wt::WText* header;
+    Wt::WVBoxLayout* vbox;
+    Wt::WContainerWidget* southContainer;
+    Wt::WHBoxLayout* controlBox;
+    Wt::WHBoxLayout* southBox;
+    std::unique_ptr<Wt::WText> header;
     Wt::WApplication &app;
     Flase* frame;
     Wt::WPushButton* start;
     Wt::WPushButton* stop;
+    std::unique_ptr<Wt::WGroupBox> controls;
     bool isRunning{ true };
 };
 

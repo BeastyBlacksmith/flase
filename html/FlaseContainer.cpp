@@ -28,26 +28,38 @@ FlaseContainer::FlaseContainer( WApplication &app ) :
 //    seed = 1523557004;
     gsl_rng_set( rng, seed );
     
-    { // Text
-        header = this->addWidget( make_unique<WText>( "<h1>Flase: Diffusive collector-item simulation</h1>" ) );
+    { // Set boxes box
+        vbox = this->setLayout( make_unique<WVBoxLayout>() );
+    }
+    { // Header Text
+        header = make_unique<WText>( "<h1>Flase: Diffusive collector-item simulation</h1>" );
+        header->setTextAlignment( AlignmentFlag::Center );
+        vbox->addWidget( move( header ) );
     }
     { // Simulation frame
-        frame = addWidget( make_unique<Flase>( rng ) );
+        controlBox = vbox->addLayout( make_unique<WHBoxLayout>() );
+        frame = controlBox->addWidget( make_unique<Flase>( rng ) );
+    }
+    { // Controls
+        controls = make_unique<WGroupBox>( "Controls" );
+        controlBox->addWidget( move( controls ) );
     }
     { // Buttons
-        start = this->addWidget( make_unique<WPushButton>( "Start" ) );
-        stop = this->addWidget( make_unique<WPushButton>( "Stop!" ) );
+        southContainer = vbox->addWidget( make_unique<WContainerWidget>() );
+        southBox = southContainer->setLayout( make_unique<WHBoxLayout>() );
+        start = southBox->addWidget( make_unique<WPushButton>( "Start" ) );
+        stop = southBox->addWidget( make_unique<WPushButton>( "Stop!" ) );
         stop->clicked().connect( start, &WPushButton::enable );
         stop->clicked().connect( stop, [this] { isRunning = false; } );
         start->clicked().connect( start, &WPushButton::disable );
-        start->clicked().connect( start, [this, &app] {
+        start->clicked().connect( start, [&] {
             isRunning = true;
             while( isRunning )
             {
                 for( int i = 0; i < 100; ++i )
                 {
                     frame->startSimulation( 0.1 );
-                    
+    
                 }
                 app.processEvents();
             }
