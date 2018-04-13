@@ -23,6 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "common.h"
 #include "ConstVelocity.h"
 
+ConstVelocity::ConstVelocity() :
+        Motion( 0, nullptr )
+{
+    persistenceTime = 0;
+    persistenceLength = 0;
+    effectiveDiffusion = 0;
+}
+
 ConstVelocity::ConstVelocity( real noise, gsl_rng* const rng, real velocity ) :
 		Motion( noise, rng )
 {

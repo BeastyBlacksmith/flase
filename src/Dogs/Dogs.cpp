@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using namespace std;
 
 Dogs::Dogs( Motion& motion ) :
-        motion( motion )
+        motion( &motion )
 {
 }
 

@@ -49,8 +49,8 @@ public:
     void work( real dt );
     
     double getV0() const { return v0; }
-
-    Motion& motion;
+    
+    Motion* motion;
 
     const std::vector< Doggy* >& getDogs() const { return dogs; }
 

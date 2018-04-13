@@ -7,6 +7,8 @@
 
 #include <Wt/WApplication.h>
 #include <Wt/WGroupBox.h>
+#include <Wt/WButtonGroup.h>
+#include <Wt/WRadioButton.h>
 #include <Wt/WHBoxLayout.h>
 #include <Wt/WVBoxLayout.h>
 #include <Wt/WText.h>
@@ -31,7 +33,10 @@ private:
     Flase* frame;
     Wt::WPushButton* start;
     Wt::WPushButton* stop;
-    std::unique_ptr<Wt::WGroupBox> controls;
+    Wt::WGroupBox* controls;
+    
+    Wt::WRadioButton* motionButton;
+    std::shared_ptr<Wt::WButtonGroup> motionButtons;
     bool isRunning{ true };
 };
 

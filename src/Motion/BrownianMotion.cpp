@@ -23,6 +23,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "BrownianMotion.h"
 
+BrownianMotion::BrownianMotion() :
+        Motion( 0, nullptr ),
+        friction( 0 )
+{
+    persistenceLength = 0;
+    persistenceTime = 0;
+    effectiveDiffusion = 0;
+}
+
 BrownianMotion::BrownianMotion( real noise, gsl_rng* const rng, real friction ) :
         Motion( noise, rng ),
         friction( friction )

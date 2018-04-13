@@ -52,7 +52,7 @@ void World::moveDogs( real dt )
     for( size_t i = 0; i < dogs.size(); ++i ) {
         Doggy& dog = dogs[i];
     
-        dog.move( dt, dogs.motion );
+        dog.move( dt, *dogs.motion );
         pbc( dog.x, dog.y );
     }
 }

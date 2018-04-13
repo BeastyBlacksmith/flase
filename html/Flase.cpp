@@ -12,12 +12,13 @@ using namespace Wt;
 
 Flase::Flase( gsl_rng* const rng, const size_t size ) :
         WPaintedWidget(),
-        size( size )
+        size( size ),
+        rng( rng )
 {
     resize( size, size );
     
-    motion = new BrownianMotion( 4.0, rng, 1.0 );
-    Dogs* dogs = new Dogs( *motion );
+    bm = new BrownianMotion( velocity * velocity * velocity * velocity / ( 2 * noise ), rng, friction );
+    Dogs* dogs = new Dogs( *bm );
     Sheep* sheep = new SheepField( size / 2.5, 1, rng );
     
     dogs->init( 50, 1., size, rng );
@@ -96,5 +97,22 @@ void Flase::startSimulation( double dt )
     }
     time += dt;
     update();
+}
+
+void Flase::changeMovement( int id )
+{
+    auto world = World::instance();
+    switch( id )
+    {
+        case 1:
+            bm = new BrownianMotion( velocity * velocity * velocity * velocity / ( 2 * noise ), rng, friction );
+            world.dogs.motion = bm;
+            break;
+        case 2:
+            cv = new ConstVelocity( noise, rng, velocity );
+            world.dogs.motion = cv;
+            break;
+    }
+    
 }
 

@@ -5,6 +5,7 @@
 #include "FlaseContainer.h"
 #include <chrono>
 #include <thread>
+#include <World.h>
 
 using namespace Wt;
 using namespace std;
@@ -41,28 +42,56 @@ FlaseContainer::FlaseContainer( WApplication &app ) :
         frame = controlBox->addWidget( make_unique<Flase>( rng ) );
     }
     { // Controls
-        controls = make_unique<WGroupBox>( "Controls" );
-        controlBox->addWidget( move( controls ) );
+        controls = controlBox->addWidget( make_unique<WGroupBox>( "Controls" ) );
     }
     { // Buttons
-        southContainer = vbox->addWidget( make_unique<WContainerWidget>() );
-        southBox = southContainer->setLayout( make_unique<WHBoxLayout>() );
-        start = southBox->addWidget( make_unique<WPushButton>( "Start" ) );
-        stop = southBox->addWidget( make_unique<WPushButton>( "Stop!" ) );
-        stop->clicked().connect( start, &WPushButton::enable );
-        stop->clicked().connect( stop, [this] { isRunning = false; } );
-        start->clicked().connect( start, &WPushButton::disable );
-        start->clicked().connect( start, [&] {
-            isRunning = true;
-            while( isRunning )
-            {
-                for( int i = 0; i < 100; ++i )
+        { // Motion Buttons
+            motionButtons = make_shared<WButtonGroup>();
+            motionButton = controls->addWidget( make_unique<WRadioButton>( "Brownian motion" ) );
+            motionButtons->addButton( motionButton );
+            motionButton = controls->addWidget( make_unique<WRadioButton>( "Random motion with constant velocity" ) );
+            motionButtons->addButton( motionButton );
+            motionButtons->setSelectedButtonIndex( 0 );
+        
+            auto rawMotionButtons = motionButtons.get();
+            motionButtons->checkedChanged().connect( [this, rawMotionButtons, &app]( WRadioButton* selection ) {
+                                                         isRunning = false;
+                                                         frame->changeMovement( rawMotionButtons->id( selection ) );
+                                                         app.log( "test" ) << "Address: " <<
+                                                                           World::instance().dogs.motion;
+                                                         app.log( "test" ) << "Eff. Diffusion: " <<
+                                                                           World::instance().dogs.motion
+                                                                                   ->getEffectiveDiffusion();
+                                                         app.log( "test" ) << "Persistence length: " <<
+                                                                           World::instance().dogs.motion
+                                                                                   ->getPersistenceLength();
+                                                         app.log( "test" ) << "Persistence length: " <<
+                                                                           World::instance().dogs.motion
+                                                                                   ->getPersistenceTime();
+                                                     }
+            );
+        }
+        { // Start / Stop
+            southContainer = vbox->addWidget( make_unique<WContainerWidget>() );
+            southBox = southContainer->setLayout( make_unique<WHBoxLayout>() );
+            start = southBox->addWidget( make_unique<WPushButton>( "Start" ) );
+            stop = southBox->addWidget( make_unique<WPushButton>( "Stop!" ) );
+            stop->clicked().connect( start, &WPushButton::enable );
+            motionButtons->checkedChanged().connect( start, &WPushButton::enable );
+            stop->clicked().connect( stop, [this] { isRunning = false; } );
+            start->clicked().connect( start, &WPushButton::disable );
+            start->clicked().connect( start, [&] {
+                isRunning = true;
+                while( isRunning )
                 {
-                    frame->startSimulation( 0.1 );
-    
+                    for( int i = 0; i < 100; ++i )
+                    {
+                        frame->startSimulation( 0.1 );
+                    
+                    }
+                    app.processEvents();
                 }
-                app.processEvents();
-            }
-        } );
+            } );
+        }
     }
 }

@@ -24,6 +24,7 @@ class ConstVelocity : public Motion
 {
 public:
     
+    ConstVelocity();
     ConstVelocity( real noise, gsl_rng* const rng, real velocity ) ;
     
     void step( real& x, real& y, real& vx, real& vy, real dt ) const;
