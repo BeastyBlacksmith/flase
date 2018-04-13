@@ -42,7 +42,7 @@ private:
     
     Wt::WLineEdit* setDt;
     bool isRunning{ true };
-    double dt{ 0.1 };
+    double dt{ 0.002 };
 };
 
 

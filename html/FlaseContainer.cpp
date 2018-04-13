@@ -45,6 +45,7 @@ FlaseContainer::FlaseContainer( WApplication &app ) :
         controls = controlBox->addWidget( make_unique<WGroupBox>( "Controls" ) );
         setDt = controls->addWidget( make_unique<WLineEdit>() );
         setDt->setInline( false );
+        setDt->setWidth( WLength( 10, LengthUnit::FontEm ) );
         setDt->setPlaceholderText( "Timestep: " + to_string( dt ) );
         setDt->enterPressed().connect( [this] { dt = stod( setDt->text() ); } );
         setDt->enterPressed().connect( [this] {
