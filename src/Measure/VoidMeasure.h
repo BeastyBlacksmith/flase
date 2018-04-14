@@ -20,11 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _VOIDMEASURE_H
 
 #include <string>
-#include <Measure.h>
+#include <Measure/Measure.h>
 
 #include "common.h"
 #include "World.h"
-#include "Sheep.h"
+#include "Sheep/Sheep.h"
 
 
 class VoidMeasure : public Measure

@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-#include "Sheep.h"
-#include "Dogs.h"
+#include "Sheep/Sheep.h"
+#include "Dogs/Dogs.h"
 
 class World
 {

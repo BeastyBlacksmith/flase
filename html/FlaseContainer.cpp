@@ -5,7 +5,6 @@
 #include "FlaseContainer.h"
 #include <chrono>
 #include <thread>
-#include <World.h>
 
 using namespace Wt;
 using namespace std;
@@ -29,6 +28,7 @@ FlaseContainer::FlaseContainer( WApplication &app ) :
 //    seed = 1523557004;
     gsl_rng_set( rng, seed );
     
+    
     { // Set boxes box
         vbox = this->setLayout( make_unique<WVBoxLayout>() );
     }
@@ -41,12 +41,24 @@ FlaseContainer::FlaseContainer( WApplication &app ) :
         controlBox = vbox->addLayout( make_unique<WHBoxLayout>() );
         frame = controlBox->addWidget( make_unique<Flase>( rng ) );
     }
+    World &world = World::instance();
     { // Controls
         controls = controlBox->addWidget( make_unique<WGroupBox>( "Controls" ) );
         auto setDt = new ParameterField( "Timestep", dt, *controls, true );
         setDt->connect();
         auto setSteps = new ParameterField( "Steps per frame", steps, *controls );
         setSteps->connect();
+        auto setNDogs = controls->addWidget( make_unique<WLineEdit>() );
+        setNDogs->setInline( false );
+        setNDogs->setWidth( WLength( dogText().size(), LengthUnit::FontEx ) );
+        setNDogs->setPlaceholderText( dogText() );
+        // TODO: reinitilization of dogs doesn't work
+//        setNDogs->enterPressed().connect( [&] { world.dogs.init( stoi( setNDogs->text() ), world.dogs.getV0() ); app
+//                .processEvents(); } );
+        setNDogs->enterPressed().connect( [&] {
+            setNDogs->setText( "" );
+            setNDogs->setPlaceholderText( dogText() );
+        } );
     }
     { // Buttons
         { // Motion Buttons

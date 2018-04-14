@@ -1,3 +1,4 @@
+
 /*
 Copyright (C) 2017  Simon Christ <c.O_o.l@web.de>, Jörg Bachmann <explicit@explicits.de>
 
@@ -14,39 +15,57 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef _SIMULATION_H
-#define _SIMULATION_H
+#ifndef _DOGS_H
+#define _DOGS_H
+
+#include <vector>
 
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
-
 #include "common.h"
-#include "HarryPlotter.h"
-#include "Measure.h"
 
-class Simulation
+#include "Motion/Motion.h"
+#include "Sheep/Sheep.h"
+
+#include "Dogs/Doggy.h"
+
+class Dogs
 {
 public:
     
-    Simulation( HarryPlotter& plotter, real meanSheepDiffusionTime, gsl_rng* const rng, Measure& measure );
+    Dogs( Motion &motion );
     
-    virtual ~Simulation() {}
+    Dogs( const Dogs &that );
     
-    virtual real run( ) = 0;
+    Dogs &operator=( const Dogs &that );
+    
+    ~Dogs();
+    
+    virtual void init( size_t nDogs, real v0 );
+    
+    void init( size_t nDogs, real v0, double boxsize, gsl_rng* const rng );
+    
+    Doggy &operator[]( size_t i ) const { return *dogs[i]; }
+    
+    size_t size() const { return dogs.size(); }
+    
+    void work( real dt );
+    
+    double getV0() const { return v0; }
+    
+    Motion* motion;
+    
+    const std::vector<Doggy*> &getDogs() const { return dogs; }
 
 protected:
     
-    void iterate( real dt );
+    void copyDogs( std::vector<Doggy*> those );
     
-    HarryPlotter& plotter;
+    std::vector<Doggy*> dogs;
+
+private:
     
-    gsl_rng* const rng;
-    
-    real time;
-    real tsheepboredom;
-    real meanSheepDiffusionTime;
-    
-    Measure& measure;
+    real v0{ 0 };
 };
 
-#endif // _SIMULATION_H
+#endif // _DOGS_H

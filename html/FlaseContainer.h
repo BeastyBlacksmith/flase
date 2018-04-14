@@ -18,6 +18,7 @@
 #include <Motion/BrownianMotion.h>
 #include <Wt/WLineEdit.h>
 #include <Wt/WTemplate.h>
+#include <World.h>
 #include "Flase.h"
 #include "util/ParameterField.h"
 
@@ -27,6 +28,7 @@ public:
     FlaseContainer( Wt::WApplication &app );
 
 private:
+    std::string dogText() { return "Number of collectors: " + std::to_string( World::instance().dogs.size() ); }
     Wt::WVBoxLayout* vbox;
     Wt::WContainerWidget* southContainer;
     Wt::WHBoxLayout* controlBox;

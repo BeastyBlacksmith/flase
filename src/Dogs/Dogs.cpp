@@ -47,6 +47,14 @@ Dogs::~Dogs()
 
 void Dogs::init( size_t nDogs, real v0 )
 {
+    if( !dogs.empty() )
+    {
+        for( size_t i = 0; i < dogs.size(); ++i )
+        {
+            delete dogs[i];
+        }
+        dogs.erase( dogs.begin(), dogs.end() );
+    }
     dogs.resize( nDogs );
     this->v0 = v0;
     World& world = World::instance();

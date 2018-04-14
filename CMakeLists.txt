@@ -22,9 +22,6 @@ file(GLOB_RECURSE sheepndogs_src2
 file(GLOB web_src "html/*.cpp")
 file(GLOB sheep2web
         "src/common.cpp"
-        "src/Sheep.h"
-        "src/Dogs.h"
-        "src/Motion.h"
         "src/World.h"
         "src/World.cpp"
         "src/Motion/*.cpp"

@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <math.h>
 
 #include "World.h"
-#include "Sheep.h"
+#include "Sheep/Sheep.h"
 
 #include "VoidMeasure.h"
 

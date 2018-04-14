@@ -8,7 +8,7 @@
 #include <Wt/WPaintedWidget.h>
 #include <Wt/WPaintDevice.h>
 #include <Wt/Wpainter.h>
-#include <Dogs.h>
+#include <Dogs/Dogs.h>
 #include <Motion/ConstVelocity.h>
 
 class Flase : public Wt::WPaintedWidget

@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-#include "Motion.h"
+#include "Motion/Motion.h"
 
 typedef enum {
     ACTIVE = 1, OCCUPIED, SLEEPY

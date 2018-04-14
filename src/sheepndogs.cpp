@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Motion/BrownianMotion.h"
 #include "Motion/ConstVelocity.h"
-#include "Dogs.h"
+#include "Dogs/Dogs.h"
 #include "Sheep/SheepField.h"
 #include "Sheep/SheepTree.h"
 #include "World.h"
