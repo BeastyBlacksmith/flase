@@ -19,6 +19,7 @@
 #include <Wt/WLineEdit.h>
 #include <Wt/WTemplate.h>
 #include "Flase.h"
+#include "util/ParameterField.h"
 
 class FlaseContainer : public Wt::WContainerWidget
 {
@@ -40,9 +41,9 @@ private:
     Wt::WRadioButton* motionButton;
     std::shared_ptr<Wt::WButtonGroup> motionButtons;
     
-    Wt::WLineEdit* setDt;
     bool isRunning{ true };
     double dt{ 0.002 };
+    double steps{ 100 };
 };
 
 

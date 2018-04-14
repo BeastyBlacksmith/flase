@@ -35,7 +35,7 @@ file(GLOB sheep2web
         )
 
 add_executable(sheepndogs ${sheepndogs_src1} ${sheepndogs_src2})
-add_executable(flase_app ${web_src} ${sheep2web})
+add_executable(flase_app ${web_src} ${sheep2web} html/util/ParameterField.cpp html/util/ParameterField.h)
 find_package(Wt REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)

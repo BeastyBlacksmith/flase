@@ -15,7 +15,7 @@ FlaseContainer::FlaseContainer( WApplication &app ) :
 {
     setContentAlignment( AlignmentFlag::Center );
     
-    // init random number generator
+    // connect random number generator
     const gsl_rng_type* T;
     gsl_rng* rng;
     long int seed;
@@ -43,16 +43,10 @@ FlaseContainer::FlaseContainer( WApplication &app ) :
     }
     { // Controls
         controls = controlBox->addWidget( make_unique<WGroupBox>( "Controls" ) );
-        setDt = controls->addWidget( make_unique<WLineEdit>() );
-        setDt->setInline( false );
-        setDt->setWidth( WLength( 10, LengthUnit::FontEm ) );
-        setDt->setPlaceholderText( "Timestep: " + to_string( dt ) );
-        setDt->enterPressed().connect( [this] { dt = stod( setDt->text() ); } );
-        setDt->enterPressed().connect( [this] {
-                                           setDt->setText( "" );
-                                           setDt->setPlaceholderText( "Timestep: " + to_string( dt ) );
-                                       }
-        );
+        auto setDt = new ParameterField( "Timestep", dt, *controls, true );
+        setDt->connect();
+        auto setSteps = new ParameterField( "Steps per frame", steps, *controls );
+        setSteps->connect();
     }
     { // Buttons
         { // Motion Buttons
@@ -94,7 +88,7 @@ FlaseContainer::FlaseContainer( WApplication &app ) :
                 isRunning = true;
                 while( isRunning )
                 {
-                    for( int i = 0; i < 100; ++i )
+                    for( int i = 0; i < steps; ++i )
                     {
                         frame->startSimulation( dt );
                     

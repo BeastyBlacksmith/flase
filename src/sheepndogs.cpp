@@ -265,7 +265,7 @@ int main( int argc, char** argv )
 {
     showLicenseNotification();
     
-    // init random number generator
+    // connect random number generator
     const gsl_rng_type *T;
     gsl_rng *rng;
     long int seed;
